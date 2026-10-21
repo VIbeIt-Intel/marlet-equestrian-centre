@@ -3,6 +3,31 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      (function () {
+        if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+
+        function startAtTopUnlessHash() {
+          var hash = window.location.hash;
+          if (hash && hash !== "#top") return;
+          document.documentElement.classList.remove("photo-zoom-open", "photo-zoom-restoring");
+          document.body.style.position = "";
+          document.body.style.top = "";
+          document.body.style.left = "";
+          document.body.style.right = "";
+          document.body.style.width = "";
+          window.scrollTo(0, 0);
+        }
+
+        startAtTopUnlessHash();
+        document.addEventListener("DOMContentLoaded", startAtTopUnlessHash);
+        window.addEventListener("pageshow", startAtTopUnlessHash);
+        window.addEventListener("load", function () {
+          startAtTopUnlessHash();
+          window.setTimeout(startAtTopUnlessHash, 100);
+        });
+      })();
+    </script>
     <title>Marlet Equestrian Centre · Horse riding lessons · Pretoria</title>
     <meta name="description" content="Horse riding lessons for all ages in Mooiplaats, Pretoria. Showjumping, mounted games, and quiet schooling — ride, learn, and grow at Marlet Equestrian Centre." />
     <link rel="canonical" href="https://vibeit-intel.github.io/marlet-equestrian-centre/" />
@@ -54,7 +79,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,560;9..144,680&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="styles.css?v=mobile5" />
+    <link rel="stylesheet" href="styles.css?v=mobile6" />
   </head>
   <body>
     <header class="top">
@@ -430,7 +455,7 @@
                   class="social-live-iframe social-live-iframe--instagram"
                   src="https://www.instagram.com/marletequestriancentre/embed/?cr=1&amp;v=14&amp;wp=540"
                   allow="encrypted-media; web-share"
-                  loading="eager"
+                  loading="lazy"
                   referrerpolicy="strict-origin-when-cross-origin"
                 ></iframe>
               </div>
@@ -497,7 +522,18 @@
     </footer>
 
     <div id="fb-root"></div>
-    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&amp;version=v22.0"></script>
+    <script>
+      window.addEventListener("load", function () {
+        window.setTimeout(function () {
+          var fb = document.createElement("script");
+          fb.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v22.0";
+          fb.async = true;
+          fb.defer = true;
+          fb.crossOrigin = "anonymous";
+          document.body.appendChild(fb);
+        }, 300);
+      });
+    </script>
     <script src="social-feeds.js" defer></script>
     <dialog class="photo-zoom">
       <button type="button" class="photo-zoom-close" aria-label="Close photo">Close</button>
