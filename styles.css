@@ -82,8 +82,8 @@ a {
 
 .brand img {
   width: auto;
-  height: 2.35rem;
-  max-width: min(12rem, 52vw);
+  height: clamp(2.75rem, 8vw, 3.5rem);
+  max-width: min(20rem, 72vw);
   object-fit: contain;
   object-position: left center;
 }
@@ -556,10 +556,13 @@ main {
   box-shadow: 0 1.2rem 2.5rem rgb(26 154 145 / 18%);
 }
 
-.hero-shot img {
+.hero-shot img,
+.hero-video {
   width: 100%;
   aspect-ratio: 3 / 2;
   object-fit: cover;
+  border-radius: inherit;
+  background: color-mix(in srgb, var(--ink) 8%, var(--paper));
 }
 
 .tagline-band {
