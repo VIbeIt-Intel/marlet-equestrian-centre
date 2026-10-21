@@ -64,21 +64,17 @@ a {
 
 .top {
   position: fixed;
-  top: 0.85rem;
-  right: 0.85rem;
-  left: auto;
+  top: 0;
+  right: 0;
+  left: 0;
   z-index: 20;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: flex-end;
-  gap: 0.2rem 0.15rem;
-  max-width: calc(100% - 1.7rem);
-  padding: 0.35rem 0.35rem 0.35rem 0.9rem;
-  border-radius: 999px;
-  background: rgb(255 255 255 / 78%);
-  box-shadow: 0 10px 30px rgb(36 48 71 / 12%);
-  backdrop-filter: blur(16px);
+  gap: 0.35rem 1.4rem;
+  padding: 1.15rem 1.6rem;
+  background: none;
 }
 
 .brand {
@@ -113,20 +109,39 @@ a {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-end;
-  gap: 0.15rem;
-  font-size: 0.92rem;
-  font-weight: 650;
+  gap: 0.15rem 0.15rem;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
 }
 
 .top nav a {
   min-height: 44px;
-  padding: 0.55rem 0.75rem;
-  border-radius: 999px;
+  padding: 0.55rem 0.7rem;
   color: var(--ink);
 }
 
 .top nav a:hover {
-  background: color-mix(in srgb, var(--c2) 12%, #fff);
+  color: var(--brand-pink);
+}
+
+.top .cta {
+  min-height: 44px;
+  padding: 0.55rem 1.15rem;
+  border: 1px solid color-mix(in srgb, var(--ink) 22%, transparent);
+  background: transparent;
+  color: var(--ink);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.top .cta:hover {
+  border-color: var(--brand-pink);
+  background: var(--brand-pink);
+  color: #fff;
 }
 
 .cta {
@@ -570,8 +585,9 @@ main {
 
 html.look-studio section.hero {
   position: relative;
-  display: block;
-  min-height: 0;
+  display: flex;
+  align-items: center;
+  min-height: 100vh;
   margin: 0 calc(50% - 50vw);
   padding: 0;
   color: var(--ink);
@@ -614,8 +630,10 @@ html.look-studio section.hero {
 .hero-shot img,
 .hero-video {
   width: 100%;
+  max-height: 100vh;
   height: auto;
-  object-fit: cover;
+  object-fit: contain;
+  object-position: center;
   background: transparent;
   display: block;
 }
