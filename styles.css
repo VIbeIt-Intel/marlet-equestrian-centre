@@ -439,9 +439,10 @@ h2::after {
 }
 
 .service-photos {
+  position: relative;
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 0.95rem;
+  width: min(100%, 34rem);
+  justify-self: start;
 }
 
 .photo-open {
@@ -494,6 +495,69 @@ h2::after {
 .photo-open:focus-visible {
   outline: 2px solid var(--brand-pink);
   outline-offset: 3px;
+}
+
+.service-photos .photo-open {
+  grid-area: 1 / 1;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.service-photos .photo-open.is-current {
+  opacity: 1;
+  pointer-events: auto;
+  z-index: 1;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .service-photos .photo-open {
+    transition: opacity 0.8s ease;
+  }
+}
+
+.service-photos .photo-open:hover,
+.service-photos .photo-open:focus-visible,
+.service-photos .photo-open.is-current:hover,
+.service-photos .photo-open.is-current:focus-visible {
+  transform: none;
+}
+
+.photo-steps {
+  position: absolute;
+  z-index: 2;
+  left: 0.65rem;
+  right: 0.65rem;
+  bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  pointer-events: none;
+}
+
+.photo-step {
+  pointer-events: auto;
+  min-width: 44px;
+  min-height: 44px;
+  border: 0;
+  border-radius: 999px;
+  color: var(--ink);
+  background: rgb(246 239 228 / 90%);
+  font-family: var(--display);
+  font-size: 1.35rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.photo-count {
+  min-height: 44px;
+  padding: 0 0.7rem;
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  background: rgb(246 239 228 / 90%);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
 }
 
 .photo-open-wide {
@@ -980,8 +1044,7 @@ footer {
   }
 
   .service-photos {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.1rem;
+    width: min(100%, 36rem);
   }
 
   .job-photos figure:only-child,
