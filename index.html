@@ -183,16 +183,24 @@
         <h2>Social</h2>
         <p class="section-lede">Live from Facebook and Instagram. Open a post, then follow from there.</p>
         <div class="social-live">
-          <figure class="social-embed">
-            <iframe
-              title="Marlet Equestrian Centre on Facebook"
-              src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2FMarletEquestrainCentre&amp;tabs=timeline&amp;width=500&amp;height=560&amp;small_header=false&amp;adapt_container_width=true&amp;hide_cover=false&amp;show_facepile=true"
-              width="500"
-              height="560"
-              style="border:none;overflow:hidden"
-              scrolling="no"
-              allow="encrypted-media"
-            ></iframe>
+          <figure class="social-embed social-fb">
+            <div id="fb-root"></div>
+            <div
+              class="fb-page"
+              data-href="https://www.facebook.com/MarletEquestrainCentre"
+              data-tabs="timeline"
+              data-width="340"
+              data-height="560"
+              data-small-header="false"
+              data-adapt-container-width="false"
+              data-hide-cover="false"
+              data-show-facepile="true"
+              data-lazy="false"
+            >
+              <blockquote cite="https://www.facebook.com/MarletEquestrainCentre">
+                <a href="https://www.facebook.com/MarletEquestrainCentre">Marlet Equestrian Centre on Facebook</a>
+              </blockquote>
+            </div>
             <a class="social-open" href="https://www.facebook.com/MarletEquestrainCentre">Open Facebook</a>
           </figure>
           <figure class="social-embed">
@@ -291,6 +299,41 @@
         backdrop.addEventListener("click", closeLightbox);
         document.addEventListener("keydown", function (e) {
           if (!lightbox.hidden && e.key === "Escape") closeLightbox();
+        });
+      })();
+
+      (function () {
+        var box = document.querySelector(".social-fb");
+        var page = document.querySelector(".fb-page");
+        if (!box || !page) return;
+
+        function widthForBox() {
+          return Math.max(180, Math.min(500, Math.floor(box.clientWidth - 2)));
+        }
+
+        function paintFacebook() {
+          page.setAttribute("data-width", String(widthForBox()));
+          if (window.FB && window.FB.XFBML) window.FB.XFBML.parse(box);
+        }
+
+        window.fbAsyncInit = function () {
+          window.FB.init({ xfbml: true, version: "v21.0" });
+          paintFacebook();
+        };
+
+        var s = document.createElement("script");
+        s.async = true;
+        s.defer = true;
+        s.crossOrigin = "anonymous";
+        s.src = "https://connect.facebook.net/en_GB/sdk.js";
+        document.body.appendChild(s);
+
+        var last = 0;
+        window.addEventListener("resize", function () {
+          var now = widthForBox();
+          if (Math.abs(now - last) < 8) return;
+          last = now;
+          paintFacebook();
         });
       })();
     </script>
