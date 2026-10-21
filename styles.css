@@ -1656,27 +1656,36 @@ main {
     grid-template-columns: 1fr;
     grid-template-rows: auto auto auto;
     row-gap: 0.35rem;
+    justify-items: center;
   }
 
   .brand {
     grid-column: 1;
     grid-row: 1;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .brand img {
+    object-position: center top;
+    margin-inline: auto;
   }
 
   .top-center {
     grid-column: 1;
     grid-row: 2;
-    align-items: flex-start;
+    align-items: center;
     flex: none;
+    width: 100%;
   }
 
   .top-tagline {
-    text-align: left;
+    text-align: center;
     padding: 0;
   }
 
   .top-social {
-    justify-content: flex-start;
+    justify-content: center;
     flex: none;
     padding: 0;
   }
@@ -1686,7 +1695,130 @@ main {
     grid-row: 3;
     width: 100%;
     max-width: 28rem;
-    justify-self: stretch;
+    justify-self: center;
+  }
+
+  main section {
+    text-align: center;
+  }
+
+  .hero-copy {
+    align-items: center;
+  }
+
+  .eyebrow,
+  h1,
+  h2,
+  h3,
+  .look-studio .hero h1,
+  .look-studio .hero .lede {
+    text-align: center;
+    margin-inline: auto;
+  }
+
+  .lede,
+  .section-lede,
+  #about p,
+  #contact p,
+  .hours,
+  .contact-social-lede,
+  .gallery-meta,
+  .foot-tag,
+  .social-feed-note {
+    margin-inline: auto;
+    text-align: center;
+  }
+
+  .gallery-shell {
+    align-items: center;
+  }
+
+  .gallery-filters {
+    justify-content: center;
+  }
+
+  .cards li {
+    border-left: 0;
+    border-top: 3px solid var(--brand-teal);
+  }
+
+  .cards--simple .card-photos {
+    margin-inline: auto;
+  }
+
+  .contact-channels {
+    justify-items: center;
+  }
+
+  .contact-link {
+    justify-content: center;
+    text-align: center;
+    max-width: 22rem;
+    width: 100%;
+    margin-inline: auto;
+  }
+
+  .contact-link-text {
+    align-items: center;
+  }
+
+  .visit-gbp-body {
+    align-items: center;
+    text-align: center;
+  }
+
+  .visit-gbp-rating,
+  .visit-gbp-actions {
+    justify-content: center;
+  }
+
+  .visit-gbp-detail {
+    padding-left: 0;
+    padding-top: 1.45rem;
+    background-position: 50% 0;
+    text-align: center;
+  }
+
+  .foot-grid {
+    text-align: center;
+    justify-items: center;
+  }
+
+  .foot-name,
+  .foot-label {
+    text-align: center;
+  }
+
+  .site-foot a:not(.footer-vibeit) {
+    justify-content: center;
+  }
+
+  .social-preview-head {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .social-preview-title {
+    flex: 1 1 100%;
+    text-align: center;
+  }
+
+  .social-profile-bar {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .social-profile-text {
+    text-align: center;
+  }
+
+  .social-preview-actions {
+    justify-content: center;
+  }
+
+  .social-btn {
+    flex: 0 1 auto;
+    min-width: min(100%, 14rem);
   }
 }
 
