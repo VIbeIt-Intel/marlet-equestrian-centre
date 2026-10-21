@@ -247,7 +247,16 @@ h2::after {
   height: 3px;
   margin-top: 0.7rem;
   border-radius: 99px;
-  background: linear-gradient(90deg, var(--brand-pink), var(--c2));
+  background: var(--c2);
+}
+
+.kicker {
+  margin-bottom: 0.35rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--c2);
 }
 
 .cards {
@@ -370,7 +379,7 @@ h2::after {
   font-weight: 680;
   letter-spacing: -0.045em;
   line-height: 0.95;
-  color: var(--brand-pink);
+  color: var(--c2);
 }
 
 .service-copy p {
@@ -654,17 +663,60 @@ html.look-studio section.hero {
   background: linear-gradient(90deg, var(--brand-pink), color-mix(in srgb, var(--brand-pink) 70%, var(--c2)));
 }
 
-.visit-list {
-  list-style: none;
+.visit-actions {
   display: grid;
-  gap: 0.65rem;
-  margin-bottom: 1.25rem;
-  max-width: 28rem;
+  gap: 0.75rem;
+  margin: 1.4rem 0 1rem;
 }
 
-.visit-list strong {
+.visit-card {
+  display: grid;
+  grid-template-columns: 2rem 1fr;
+  grid-template-rows: auto auto;
+  column-gap: 0.85rem;
+  align-items: center;
+  min-height: 44px;
+  padding: 1rem 1.1rem;
+  border-radius: 1rem;
+  background: #fff;
+  box-shadow: 0 8px 28px rgb(36 48 71 / 6%);
+}
+
+.visit-card svg {
+  grid-row: 1 / span 2;
+  width: 1.7rem;
+  height: 1.7rem;
+}
+
+.visit-card strong {
+  font-family: var(--display);
+  font-size: 1.2rem;
+  font-style: italic;
+  font-weight: 680;
+  letter-spacing: -0.03em;
+}
+
+.visit-card span {
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.visit-wa {
+  color: #128c7e;
+  background: color-mix(in srgb, #128c7e 8%, #fff);
+}
+
+.visit-map {
+  color: var(--c2);
+}
+
+.visit-call {
   color: var(--brand-pink);
-  font-weight: 600;
+}
+
+.visit-note {
+  color: var(--muted);
+  font-size: 0.92rem;
 }
 
 #hours {
@@ -672,17 +724,10 @@ html.look-studio section.hero {
   border-bottom: 1px solid color-mix(in srgb, var(--ink) 10%, transparent);
 }
 
-.cards li {
-  border-left: 3px solid color-mix(in srgb, var(--c2) 55%, var(--brand-pink));
-}
-
-.top .cta {
-  background: var(--brand-pink);
-}
-
-#contact .cta,
-#hours .cta {
-  background: var(--brand-pink);
+@media (min-width: 800px) {
+  .visit-actions {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
 @media (min-width: 800px) {
