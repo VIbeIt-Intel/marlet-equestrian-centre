@@ -4,10 +4,11 @@
   --c3: #ffffff;
   --seed-ink: #e8098d;
   --seed-paper: #ffffff;
-  --ink: var(--seed-ink);
+  --ink: #243047;
   --paper: var(--seed-paper);
-  --accent: #1a9a91;
+  --accent: var(--c2);
   --on-accent: #ffffff;
+  --brand-pink: var(--c1);
   --display: "Fraunces", "Segoe UI", sans-serif;
   --text: "Figtree", "Segoe UI", sans-serif;
   --muted: color-mix(in srgb, var(--ink) 68%, transparent);
@@ -316,11 +317,33 @@ main {
 }
 
 #bookings {
+  order: 8;
+}
+
+#hours {
   order: 6;
 }
 
 #contact {
   order: 7;
+}
+
+.look-studio #services {
+  order: 3;
+}
+
+.look-studio #gallery {
+  order: 4;
+}
+
+.look-studio #hours {
+  order: 5;
+}
+
+.look-studio #about,
+.look-studio #bookings,
+.look-studio #products {
+  display: none;
 }
 
 .reach a[hidden] {
@@ -345,6 +368,105 @@ main {
 .no-services #services,
 .no-services nav a[href="#services"] {
   display: none;
+}
+
+.section-lede {
+  max-width: 38rem;
+  margin-bottom: 1.25rem;
+  color: var(--muted);
+  font-size: 1.05rem;
+}
+
+.look-studio .hero {
+  display: grid;
+  gap: 1.5rem;
+  padding: 2rem 0 1rem;
+  align-items: end;
+}
+
+.hero-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.look-studio .hero .eyebrow {
+  color: var(--brand-pink);
+}
+
+.hero-shot {
+  margin: 0;
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 1.2rem 2.5rem rgb(26 154 145 / 18%);
+}
+
+.hero-shot img {
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+}
+
+.tagline-band {
+  order: 2;
+  margin: 0 calc(50% - 50vw);
+  padding: 0.85rem 1.2rem;
+  text-align: center;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-size: 0.78rem;
+  color: var(--on-accent);
+  background: linear-gradient(90deg, var(--brand-pink), color-mix(in srgb, var(--brand-pink) 70%, var(--c2)));
+}
+
+.visit-list {
+  list-style: none;
+  display: grid;
+  gap: 0.65rem;
+  margin-bottom: 1.25rem;
+  max-width: 28rem;
+}
+
+.visit-list strong {
+  color: var(--brand-pink);
+  font-weight: 600;
+}
+
+#hours {
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--ink) 10%, transparent);
+}
+
+.cards li {
+  border-left: 3px solid color-mix(in srgb, var(--c2) 55%, var(--brand-pink));
+}
+
+.top .cta {
+  background: var(--brand-pink);
+}
+
+#contact .cta,
+#hours .cta {
+  background: var(--brand-pink);
+}
+
+@media (min-width: 800px) {
+  .look-studio .hero {
+    grid-template-columns: 1fr 1.05fr;
+    gap: 2rem;
+    padding-top: 2.5rem;
+  }
+
+  .cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .cards {
+    grid-template-columns: repeat(4, 1fr);
+  }
 }
 
 footer {

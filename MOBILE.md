@@ -7,5 +7,5 @@ Before the pull request:
 3. Run `node mobile-check.mjs` until it prints PASS.
 
 Result:
-- Script: not run yet
-- Look at 360px and 390px: not done
+- Script: PASS
+- Look at 360px and 390px: PASS — no horizontal scroll, images and CTAs fit the viewport, fixed WhatsApp chip clears footer contact lines. Equestrian layout uses stacked hero photo, two-column job grid on small screens, and readable section ledes.
