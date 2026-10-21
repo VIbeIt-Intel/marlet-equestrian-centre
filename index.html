@@ -185,31 +185,42 @@
       <section id="social">
         <p class="kicker">Follow the yard</p>
         <h2>Social</h2>
-        <p class="section-lede">Latest from Instagram, and Facebook when you want the full page.</p>
+        <p class="section-lede">Latest from Instagram and Facebook.</p>
         <div class="social-stage">
-          <figure class="social-embed">
+          <figure class="social-embed social-ig">
+            <figcaption class="social-head">
+              <h3>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M7 3h10a4 4 0 0 1 4 4v10a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V7a4 4 0 0 1 4-4zm10 2H7a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2zm-5 3.2A3.8 3.8 0 1 1 8.2 12 3.8 3.8 0 0 1 12 8.2zm0 2A1.8 1.8 0 1 0 13.8 12 1.8 1.8 0 0 0 12 10.2zM17.2 7.1a.9.9 0 1 1-.9.9.9.9 0 0 1 .9-.9z"/></svg>
+                Instagram
+              </h3>
+              <a href="https://www.instagram.com/marletequestriancentre/">@marletequestriancentre</a>
+            </figcaption>
             <iframe
-              title="Marlet Equestrian Centre on Instagram"
+              title="Instagram preview for Marlet Equestrian Centre"
               src="https://www.instagram.com/marletequestriancentre/embed"
-              width="500"
               height="640"
               style="border:none;overflow:hidden"
               scrolling="no"
               allow="encrypted-media"
             ></iframe>
           </figure>
-          <div class="social-links">
-            <a class="visit-card visit-ig" href="https://www.instagram.com/marletequestriancentre/">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M7 3h10a4 4 0 0 1 4 4v10a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V7a4 4 0 0 1 4-4zm10 2H7a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2zm-5 3.2A3.8 3.8 0 1 1 8.2 12 3.8 3.8 0 0 1 12 8.2zm0 2A1.8 1.8 0 1 0 13.8 12 1.8 1.8 0 0 0 12 10.2zM17.2 7.1a.9.9 0 1 1-.9.9.9.9 0 0 1 .9-.9z"/></svg>
-              <strong>Instagram</strong>
-              <span>@marletequestriancentre</span>
-            </a>
-            <a class="visit-card visit-fb" href="https://www.facebook.com/MarletEquestrainCentre">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M14 8h3V4h-3c-2.8 0-5 2.2-5 5v2H7v4h2v7h4v-7h3l1-4h-4V9c0-.6.4-1 1-1z"/></svg>
-              <strong>Facebook</strong>
-              <span>Open the page</span>
-            </a>
-          </div>
+          <figure class="social-embed social-fb">
+            <figcaption class="social-head">
+              <h3>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M14 8h3V4h-3c-2.8 0-5 2.2-5 5v2H7v4h2v7h4v-7h3l1-4h-4V9c0-.6.4-1 1-1z"/></svg>
+                Facebook
+              </h3>
+              <a href="https://www.facebook.com/MarletEquestrainCentre">Open the page</a>
+            </figcaption>
+            <iframe
+              title="Facebook preview for Marlet Equestrian Centre"
+              src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2FMarletEquestrainCentre%2Fposts%2Fpfbid02pEC2E9o5n8BwPAJgCnpF6fttiHmuFwcBz8su3VggANscE9q19WBoRwJodRCESzhHl&amp;show_text=true&amp;width=340"
+              height="760"
+              style="border:none;overflow:hidden"
+              scrolling="no"
+              allow="encrypted-media; clipboard-write; picture-in-picture; web-share"
+            ></iframe>
+          </figure>
         </div>
       </section>
 
@@ -295,6 +306,24 @@
         document.addEventListener("keydown", function (e) {
           if (!lightbox.hidden && e.key === "Escape") closeLightbox();
         });
+      })();
+
+      (function () {
+        var frame = document.querySelector(".social-fb iframe");
+        if (!frame) return;
+        var post = "https://www.facebook.com/MarletEquestrainCentre/posts/pfbid02pEC2E9o5n8BwPAJgCnpF6fttiHmuFwcBz8su3VggANscE9q19WBoRwJodRCESzhHl";
+        var last = 0;
+
+        function fitFacebook() {
+          var w = Math.max(280, Math.min(500, Math.floor(frame.parentElement.clientWidth)));
+          frame.style.width = w + "px";
+          if (Math.abs(w - last) < 16) return;
+          last = w;
+          frame.src = "https://www.facebook.com/plugins/post.php?href=" + encodeURIComponent(post) + "&show_text=true&width=" + w;
+        }
+
+        fitFacebook();
+        window.addEventListener("resize", fitFacebook);
       })();
     </script>
   </body>
