@@ -381,24 +381,26 @@ h2::after {
 }
 
 .service-topic {
-  display: grid;
-  gap: 1.15rem;
-  padding: 2.1rem 0 2.25rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.35rem;
+  padding: 2.6rem 0 2.85rem;
+  text-align: center;
   border-top: 1px solid color-mix(in srgb, var(--c2) 22%, transparent);
 }
 
 .service-topic:first-of-type {
   border-top: none;
-  padding-top: 0.35rem;
+  padding-top: 0.4rem;
 }
 
 .service-copy {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  column-gap: 0.85rem;
-  row-gap: 0.45rem;
-  align-items: baseline;
-  max-width: 38rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  max-width: 36rem;
 }
 
 .service-index {
@@ -424,25 +426,33 @@ h2::after {
   color: var(--ink);
 }
 
+.service-copy h3::after {
+  content: "";
+  display: block;
+  width: 3.4rem;
+  height: 2px;
+  margin: 0.75rem auto 0;
+  border-radius: 99px;
+  background: var(--c2);
+}
+
 .service-note {
-  grid-column: 1 / -1;
-  margin: 0.15rem 0 0;
-  padding: 0.15rem 0 0 0.85rem;
-  border-left: 2px solid var(--c2);
+  margin: 0.85rem 0 0;
+  max-width: 32rem;
   font-family: var(--display);
   font-size: clamp(1.12rem, 2.3vw, 1.32rem);
   font-style: italic;
   font-weight: 560;
   letter-spacing: -0.02em;
-  line-height: 1.38;
+  line-height: 1.4;
   color: var(--ink);
 }
 
 .service-photos {
   position: relative;
   display: grid;
-  width: min(100%, 34rem);
-  justify-self: start;
+  justify-items: center;
+  width: min(100%, 40rem);
 }
 
 .photo-open {
@@ -465,8 +475,9 @@ h2::after {
 
 .photo-open img {
   width: 100%;
-  aspect-ratio: 1;
+  aspect-ratio: 4 / 3;
   object-fit: cover;
+  object-position: center 35%;
   display: block;
   pointer-events: none;
   outline: 1px solid color-mix(in srgb, var(--c2) 38%, transparent);
@@ -511,7 +522,7 @@ h2::after {
 
 @media (prefers-reduced-motion: no-preference) {
   .service-photos .photo-open {
-    transition: opacity 0.8s ease;
+    transition: opacity 1.15s ease;
   }
 }
 
@@ -523,25 +534,22 @@ h2::after {
 }
 
 .photo-steps {
-  position: absolute;
+  position: relative;
   z-index: 2;
-  left: 0.65rem;
-  right: 0.65rem;
-  bottom: 0.75rem;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  pointer-events: none;
+  justify-content: center;
+  gap: 0.35rem;
+  margin-top: 0.85rem;
 }
 
 .photo-step {
-  pointer-events: auto;
   min-width: 44px;
   min-height: 44px;
-  border: 0;
+  border: 1px solid color-mix(in srgb, var(--c2) 35%, transparent);
   border-radius: 999px;
   color: var(--ink);
-  background: rgb(246 239 228 / 90%);
+  background: #fff;
   font-family: var(--display);
   font-size: 1.35rem;
   line-height: 1;
@@ -550,14 +558,15 @@ h2::after {
 
 .photo-count {
   min-height: 44px;
+  min-width: 4.5rem;
   padding: 0 0.7rem;
   display: inline-flex;
   align-items: center;
-  border-radius: 999px;
-  background: rgb(246 239 228 / 90%);
+  justify-content: center;
+  color: var(--muted);
   font-size: 0.78rem;
   font-weight: 700;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
 }
 
 .photo-open-wide {
@@ -1031,20 +1040,8 @@ footer {
     gap: 0.45rem;
   }
 
-  .service-topic {
-    grid-template-columns: minmax(14rem, 20rem) minmax(0, 1fr);
-    column-gap: 2rem;
-    align-items: start;
-  }
-
-  .service-copy {
-    position: sticky;
-    top: 1.25rem;
-    margin: 0;
-  }
-
   .service-photos {
-    width: min(100%, 36rem);
+    width: min(100%, 44rem);
   }
 
   .job-photos figure:only-child,
