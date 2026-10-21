@@ -561,8 +561,15 @@ main {
 }
 
 .look-studio .hero h1 {
-  max-width: none;
-  font-size: clamp(1.65rem, 4.6vw, 4.4rem);
+  max-width: 14ch;
+  font-size: clamp(2.1rem, 5.4vw, 4.6rem);
+}
+
+.lede-lead {
+  max-width: 28rem;
+  font-size: clamp(1.05rem, 2vw, 1.35rem);
+  font-weight: 600;
+  color: var(--ink);
 }
 
 .hero-copy {
