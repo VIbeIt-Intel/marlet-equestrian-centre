@@ -300,6 +300,128 @@ h2 {
   aspect-ratio: 16 / 9;
 }
 
+.service-topic {
+  padding: 1.75rem 0;
+  border-top: 1px solid color-mix(in srgb, var(--ink) 10%, transparent);
+}
+
+.service-topic:first-of-type {
+  border-top: none;
+  padding-top: 0.5rem;
+}
+
+.service-copy {
+  margin-bottom: 1rem;
+  max-width: 36rem;
+}
+
+.service-copy h3 {
+  margin-bottom: 0.35rem;
+  font-family: var(--display), sans-serif;
+  font-size: 1.35rem;
+  letter-spacing: -0.03em;
+}
+
+.service-copy p {
+  color: var(--muted);
+  font-size: 1.02rem;
+}
+
+.service-photos {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.4rem;
+}
+
+.photo-open {
+  display: block;
+  width: 100%;
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 0.25rem;
+  overflow: hidden;
+  cursor: pointer;
+  background: color-mix(in srgb, var(--ink) 8%, var(--paper));
+}
+
+.photo-open img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  display: block;
+  pointer-events: none;
+}
+
+.photo-open-wide {
+  grid-column: 1 / -1;
+}
+
+.photo-open-wide img {
+  aspect-ratio: 16 / 9;
+}
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.lightbox[hidden] {
+  display: none;
+}
+
+.lightbox-backdrop {
+  position: absolute;
+  inset: 0;
+  border: 0;
+  background: rgb(0 0 0 / 88%);
+  cursor: pointer;
+}
+
+.lightbox-panel {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 56rem);
+  max-height: calc(100vh - 2rem);
+}
+
+.lightbox-panel img {
+  width: 100%;
+  max-height: calc(100vh - 5rem);
+  object-fit: contain;
+  border-radius: 0.25rem;
+  background: #111;
+}
+
+.lightbox-close {
+  position: absolute;
+  top: -0.25rem;
+  right: 0;
+  transform: translateY(-100%);
+  min-height: 44px;
+  padding: 0.65rem 1rem;
+  border: 0;
+  border-radius: 999px;
+  color: #fff;
+  background: var(--brand-pink);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+body.lightbox-open {
+  overflow: hidden;
+}
+
+body.lightbox-open .wa {
+  opacity: 0;
+  pointer-events: none;
+}
+
 .look-food #services {
   order: 2;
 }
@@ -365,11 +487,11 @@ main {
   order: 3;
 }
 
-.look-studio #gallery {
+.look-studio #hours {
   order: 4;
 }
 
-.look-studio #hours {
+.look-studio #contact {
   order: 5;
 }
 
@@ -540,6 +662,10 @@ footer {
   .photo-wall {
     grid-template-columns: repeat(3, 1fr);
     gap: 0.45rem;
+  }
+
+  .service-photos {
+    grid-template-columns: repeat(3, 1fr);
   }
 
   .job-photos figure:only-child,
