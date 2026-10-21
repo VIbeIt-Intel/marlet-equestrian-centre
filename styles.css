@@ -274,6 +274,32 @@ h2 {
   aspect-ratio: 16 / 10;
 }
 
+.photo-wall {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.35rem;
+}
+
+.photo-wall figure {
+  margin: 0;
+}
+
+.photo-wall img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 0.2rem;
+  background: color-mix(in srgb, var(--ink) 8%, var(--paper));
+}
+
+.photo-wall-wide {
+  grid-column: 1 / -1;
+}
+
+.photo-wall-wide img {
+  aspect-ratio: 16 / 9;
+}
+
 .look-food #services {
   order: 2;
 }
@@ -509,6 +535,11 @@ footer {
 
   .job-photos {
     grid-template-columns: repeat(3, 1fr);
+  }
+
+  .photo-wall {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.45rem;
   }
 
   .job-photos figure:only-child,
