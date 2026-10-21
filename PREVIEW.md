@@ -17,3 +17,7 @@ The site files are on `main` (`index.html`, `assets/`, workflow `.github/workflo
 After a green workflow run, the preview URL above should load within a few minutes.
 
 When **www.marlet.co.za** is connected, point the domain at this site and update the canonical URL in `index.html` from the GitHub Pages address to `https://www.marlet.co.za/`.
+
+## Hero intro video
+
+The homepage hero plays **`assets/intro.mp4`**. Add that file to the repo (same name) or attach the video in the Cursor agent chat so it can be copied in and deployed.
