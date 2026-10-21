@@ -1653,49 +1653,61 @@ main {
 
 @media (max-width: 799px) {
   .top {
-    grid-template-columns: 1fr;
-    grid-template-rows: auto auto auto;
-    row-gap: 0.35rem;
-    justify-items: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+    text-align: center;
+  }
+
+  .top > .brand,
+  .top > .top-center,
+  .top > .stable-nav {
+    grid-column: auto;
+    grid-row: auto;
+    width: min(100%, 28rem);
+    max-width: 100%;
+    margin-inline: auto;
   }
 
   .brand {
-    grid-column: 1;
-    grid-row: 1;
     justify-content: center;
-    width: 100%;
+    align-items: center;
+    align-self: center;
   }
 
   .brand img {
-    object-position: center top;
+    object-position: center center;
     margin-inline: auto;
   }
 
   .top-center {
-    grid-column: 1;
-    grid-row: 2;
     align-items: center;
+    align-self: center;
     flex: none;
-    width: 100%;
+    width: min(100%, 28rem);
+    padding-top: 0;
   }
 
   .top-tagline {
-    text-align: center;
+    width: 100%;
+    margin-inline: auto;
     padding: 0;
+    text-align: center;
   }
 
   .top-social {
+    width: fit-content;
+    max-width: 100%;
+    margin-inline: auto;
     justify-content: center;
     flex: none;
     padding: 0;
   }
 
   .stable-nav {
-    grid-column: 1;
-    grid-row: 3;
-    width: 100%;
-    max-width: 28rem;
-    justify-self: center;
+    align-self: center;
+    justify-content: center;
   }
 
   main section {

@@ -14,22 +14,32 @@ for (let i = 0; i < data.length; i += 4) {
   const min = Math.min(r, g, b);
   const sat = max === 0 ? 0 : (max - min) / max;
 
-  // Near-white background and pale grey shadow fringe -> transparent
-  if (max >= 245 && sat < 0.12) {
-    data[i + 3] = 0;
-    continue;
+  // White, checkerboard grey, and pale fringe -> transparent
+  if (sat < 0.2) {
+    if (max >= 248) {
+      data[i + 3] = 0;
+      continue;
+    }
+    if (max >= 165 && max < 248) {
+      data[i + 3] = 0;
+      continue;
+    }
+    if (max >= 210) {
+      data[i + 3] = Math.min(data[i + 3], 32);
+      continue;
+    }
   }
-  if (max >= 228 && sat < 0.1) {
+
+  if (max >= 228 && sat < 0.12) {
     data[i + 3] = Math.min(data[i + 3], 24);
-    continue;
-  }
-  if (max >= 210 && sat < 0.08) {
-    data[i + 3] = Math.min(data[i + 3], 64);
   }
 }
 
-await sharp(data, { raw: { width: info.width, height: info.height, channels: 4 } })
-  .png({ compressionLevel: 9, adaptiveFiltering: true })
-  .toFile(out);
+let pipeline = sharp(data, { raw: { width: info.width, height: info.height, channels: 4 } }).trim({
+  threshold: 12,
+});
 
-console.log(`Wrote ${out} (${info.width}x${info.height})`);
+await pipeline.png({ compressionLevel: 9, adaptiveFiltering: true }).toFile(out);
+
+const trimmed = await sharp(out).metadata();
+console.log(`Wrote ${out} (${trimmed.width}x${trimmed.height})`);
