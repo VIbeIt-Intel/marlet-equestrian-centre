@@ -565,7 +565,7 @@ main {
   font-size: clamp(2.1rem, 5.4vw, 4.6rem);
 }
 
-.lede-lead {
+.look-studio .hero .lede-lead {
   max-width: 28rem;
   font-size: clamp(1.05rem, 2vw, 1.35rem);
   font-weight: 600;
