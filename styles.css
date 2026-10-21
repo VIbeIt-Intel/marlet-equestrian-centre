@@ -750,6 +750,48 @@ html.look-studio section.hero {
   color: var(--brand-pink);
 }
 
+.visit-mail {
+  color: var(--c2);
+}
+
+.social-live {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1.2rem;
+}
+
+.social-embed {
+  display: grid;
+  margin: 0;
+  overflow: hidden;
+  border-radius: 1rem;
+  background: #fff;
+  box-shadow: 0 8px 28px rgb(36 48 71 / 6%);
+}
+
+.social-embed iframe {
+  width: 100%;
+  max-width: 100%;
+  height: 560px;
+  border: 0;
+  background: #fff;
+}
+
+.social-open {
+  min-height: 44px;
+  padding: 0.75rem 1rem;
+  font-family: var(--display);
+  font-style: italic;
+  font-weight: 680;
+  color: var(--c2);
+}
+
+@media (min-width: 800px) {
+  .social-live {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
 .visit-note {
   color: var(--muted);
   font-size: 0.92rem;
@@ -762,7 +804,7 @@ html.look-studio section.hero {
 
 @media (min-width: 800px) {
   .visit-actions {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
   }
 }
 
