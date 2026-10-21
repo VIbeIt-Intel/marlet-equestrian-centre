@@ -534,9 +534,15 @@ main {
 
 .look-studio .hero {
   display: grid;
-  gap: 1.5rem;
-  padding: 2rem 0 1rem;
-  align-items: end;
+  grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+  gap: 0.85rem 1.4rem;
+  padding: 1rem 0 0.4rem;
+  align-items: center;
+}
+
+.look-studio .hero h1 {
+  max-width: none;
+  font-size: clamp(1.65rem, 4.6vw, 4.4rem);
 }
 
 .hero-copy {
@@ -550,19 +556,19 @@ main {
 }
 
 .hero-shot {
+  order: -1;
   margin: 0;
-  border-radius: 1rem;
-  overflow: hidden;
-  box-shadow: 0 1.2rem 2.5rem rgb(26 154 145 / 18%);
+  background: transparent;
 }
 
 .hero-shot img,
 .hero-video {
   width: 100%;
-  aspect-ratio: 3 / 2;
-  object-fit: cover;
-  border-radius: inherit;
-  background: color-mix(in srgb, var(--ink) 8%, var(--paper));
+  height: auto;
+  max-height: min(78vh, 640px);
+  object-fit: contain;
+  background: transparent;
+  display: block;
 }
 
 .tagline-band {
@@ -611,9 +617,9 @@ main {
 
 @media (min-width: 800px) {
   .look-studio .hero {
-    grid-template-columns: 1fr 1.05fr;
+    grid-template-columns: minmax(240px, 0.78fr) minmax(0, 1.22fr);
     gap: 2rem;
-    padding-top: 2.5rem;
+    padding-top: 1.4rem;
   }
 
   .cards {
