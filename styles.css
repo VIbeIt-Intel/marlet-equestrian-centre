@@ -760,60 +760,11 @@ main {
   color: var(--ink);
 }
 
-html.look-studio main {
-  width: 100%;
-  max-width: none;
-  margin: 0;
-}
-
-html.look-studio section:not(.hero) {
-  width: min(1120px, calc(100% - 2rem));
-  margin-inline: auto;
-}
-
-html.look-studio .tagline-band {
-  width: 100%;
-  margin: 0;
-}
-
-html.look-studio .top {
-  position: sticky;
-  top: 0;
-  z-index: 40;
-  justify-content: flex-end;
-  gap: 0.1rem 1.15rem;
-  width: 100%;
-  margin: 0;
-  padding: 0.15rem 1.35rem;
-  background: #fff;
-  border-bottom: 3px solid var(--brand-pink);
-  box-shadow: 0 6px 18px rgb(36 48 71 / 8%);
-}
-
-html.look-studio .top-wa {
-  min-height: 44px;
-  margin-left: 0.2rem;
-  padding: 0 0.95rem;
-  border-radius: 999px;
-  color: #fff;
-  background: var(--brand-pink);
-  box-shadow: none;
-}
-
-html.look-studio .top-wa:hover {
-  color: #fff;
-  background: var(--c2);
-  box-shadow: none;
-}
-
 html.look-studio section.hero {
   position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  display: block;
   min-height: 0;
-  width: 100%;
-  margin: 0;
+  margin: 0 calc(50% - 50vw);
   padding: 0;
   color: var(--ink);
   background: var(--hero-bg);
@@ -859,22 +810,6 @@ html.look-studio section.hero {
   object-fit: contain;
   background: var(--hero-bg);
   display: block;
-}
-
-.look-studio .hero-shot {
-  display: flex;
-  justify-content: center;
-  background: linear-gradient(to bottom, #c5b5da 0%, #e7d6e4 28%, #f2e0e7 58%, #ead5c8 100%);
-}
-
-.look-studio .hero-shot img {
-  width: auto;
-  max-width: 100%;
-  height: auto;
-  max-height: calc(100vh - 4.6rem);
-  max-height: calc(100svh - 4.6rem);
-  object-fit: contain;
-  object-position: center center;
 }
 
 @media (min-width: 800px) {
