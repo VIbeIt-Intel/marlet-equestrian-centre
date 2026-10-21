@@ -144,6 +144,30 @@ a {
   box-shadow: inset 0 -1px 0 var(--c2);
 }
 
+.top-social {
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+}
+
+.top-social a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  min-height: 44px;
+  color: var(--ink);
+}
+
+.top-social svg {
+  width: 1.15rem;
+  height: 1.15rem;
+}
+
+.top-social a:hover {
+  color: var(--brand-pink);
+}
+
 .cta {
   display: inline-flex;
   align-items: center;
@@ -551,8 +575,12 @@ main {
   order: 4;
 }
 
-.look-studio #contact {
+.look-studio #social {
   order: 5;
+}
+
+.look-studio #contact {
+  order: 6;
 }
 
 .look-studio #about,
@@ -711,6 +739,14 @@ html.look-studio section.hero {
 }
 
 .visit-call {
+  color: var(--brand-pink);
+}
+
+.visit-fb {
+  color: #1877f2;
+}
+
+.visit-ig {
   color: var(--brand-pink);
 }
 
