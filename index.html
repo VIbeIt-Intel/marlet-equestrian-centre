@@ -3,6 +3,86 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preload" href="assets/intro.mp4" as="video" type="video/mp4" fetchpriority="high" />
+    <style>
+      html.site-intro-active,
+      body.intro-locked {
+        overflow: hidden;
+      }
+      body.intro-locked .top,
+      body.intro-locked main,
+      body.intro-locked .site-foot,
+      body.intro-locked .wa,
+      body.intro-locked #fb-root {
+        visibility: hidden;
+      }
+      .site-intro {
+        position: fixed;
+        inset: 0;
+        z-index: 10000;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        background: #000;
+      }
+      .site-intro-video {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        background: #000;
+      }
+      .site-intro-bar {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        gap: 0.55rem 0.75rem;
+        padding: max(1rem, env(safe-area-inset-bottom)) 1rem 1.15rem;
+        background: linear-gradient(to top, rgb(0 0 0 / 72%), transparent);
+      }
+      .site-intro-bar button {
+        min-height: 44px;
+        padding: 0.55rem 1rem;
+        border: 0;
+        border-radius: 999px;
+        font: inherit;
+        font-size: 0.88rem;
+        font-weight: 700;
+        cursor: pointer;
+      }
+      .site-intro-enter {
+        color: #fff;
+        background: #e8098d;
+      }
+      .site-intro-skip {
+        color: rgb(255 255 255 / 88%);
+        background: rgb(255 255 255 / 14%);
+        border: 1px solid rgb(255 255 255 / 28%);
+      }
+      .site-intro-unmute {
+        color: #fff;
+        background: rgb(255 255 255 / 10%);
+        border: 1px solid rgb(255 255 255 / 22%);
+      }
+      .site-intro-play {
+        position: absolute;
+        inset: 0;
+        border: 0;
+        color: #fff;
+        font: inherit;
+        font-size: 1.05rem;
+        font-weight: 700;
+        background: rgb(0 0 0 / 45%);
+        cursor: pointer;
+      }
+      .site-intro-play[hidden] {
+        display: none;
+      }
+    </style>
     <script>
       (function () {
         if ("scrollRestoration" in history) history.scrollRestoration = "manual";
@@ -76,10 +156,15 @@
   }
 }
     </script>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,560;9..144,680&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="styles.css?v=intro1" />
+    <link rel="preload" href="styles.css?v=intro2" as="style" />
+    <link
+      id="site-styles"
+      rel="stylesheet"
+      href="styles.css?v=intro2"
+      media="print"
+      onload="this.media='all'"
+    />
+    <noscript><link rel="stylesheet" href="styles.css?v=intro2" /></noscript>
   </head>
   <body class="intro-locked">
     <div class="site-intro" id="site-intro" role="dialog" aria-modal="true" aria-label="Welcome to Marlet Equestrian Centre">
@@ -89,7 +174,9 @@
         autoplay
         muted
         playsinline
+        webkit-playsinline
         preload="auto"
+        fetchpriority="high"
         disablepictureinpicture
       ></video>
       <div class="site-intro-bar">
@@ -111,20 +198,43 @@
         var playBtn = intro.querySelector(".site-intro-play");
         var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+        function loadDeferredSiteAssets() {
+          if (document.getElementById("deferred-fonts")) return;
+          var preconnectA = document.createElement("link");
+          preconnectA.rel = "preconnect";
+          preconnectA.href = "https://fonts.googleapis.com";
+          var preconnectB = document.createElement("link");
+          preconnectB.rel = "preconnect";
+          preconnectB.href = "https://fonts.gstatic.com";
+          preconnectB.crossOrigin = "anonymous";
+          var fonts = document.createElement("link");
+          fonts.id = "deferred-fonts";
+          fonts.rel = "stylesheet";
+          fonts.href =
+            "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,560;9..144,680&family=Figtree:wght@400;500;600&display=swap";
+          document.head.appendChild(preconnectA);
+          document.head.appendChild(preconnectB);
+          document.head.appendChild(fonts);
+        }
+
         function releaseIntro() {
           if (!intro.isConnected) return;
           intro.remove();
           document.body.classList.remove("intro-locked");
           document.documentElement.classList.remove("site-intro-active");
+          loadDeferredSiteAssets();
+          window.dispatchEvent(new Event("mec-intro-done"));
           window.scrollTo(0, 0);
         }
 
         if (reduced) {
+          loadDeferredSiteAssets();
           releaseIntro();
           return;
         }
 
         document.documentElement.classList.add("site-intro-active");
+        video.load();
 
         function showEnter() {
           enterBtn.hidden = false;
@@ -155,16 +265,16 @@
           tryPlay();
         });
 
+        video.addEventListener("loadeddata", tryPlay, { once: true });
+        video.addEventListener("canplay", tryPlay, { once: true });
         if (video.readyState >= 2) {
           tryPlay();
-        } else {
-          video.addEventListener("loadeddata", tryPlay, { once: true });
         }
       })();
     </script>
     <header class="top">
       <a class="brand" href="#top">
-        <img src="assets/logo-header.png?v=client" alt="Marlet Equestrian Centre" width="520" height="288" decoding="async" fetchpriority="high" />
+        <img src="assets/logo-header.png?v=client" alt="Marlet Equestrian Centre" width="520" height="288" decoding="async" loading="lazy" fetchpriority="low" />
       </a>
       <div class="top-center">
         <p class="top-tagline">Est. 2003 · Mooiplaats, Pretoria</p>
@@ -603,16 +713,23 @@
 
     <div id="fb-root"></div>
     <script>
-      window.addEventListener("load", function () {
-        window.setTimeout(function () {
-          var fb = document.createElement("script");
-          fb.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v22.0";
-          fb.async = true;
-          fb.defer = true;
-          fb.crossOrigin = "anonymous";
-          document.body.appendChild(fb);
-        }, 300);
-      });
+      (function () {
+        function loadFacebookSdk() {
+          window.setTimeout(function () {
+            var fb = document.createElement("script");
+            fb.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v22.0";
+            fb.async = true;
+            fb.defer = true;
+            fb.crossOrigin = "anonymous";
+            document.body.appendChild(fb);
+          }, 300);
+        }
+        if (document.body.classList.contains("intro-locked")) {
+          window.addEventListener("mec-intro-done", loadFacebookSdk, { once: true });
+        } else {
+          window.addEventListener("load", loadFacebookSdk, { once: true });
+        }
+      })();
     </script>
     <script src="social-feeds.js" defer></script>
     <dialog class="photo-zoom">
