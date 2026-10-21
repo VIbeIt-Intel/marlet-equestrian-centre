@@ -2060,3 +2060,112 @@ main {
     grid-column: 1 / -1;
   }
 }
+
+html.site-intro-active {
+  overflow: hidden;
+}
+
+body.intro-locked {
+  overflow: hidden;
+}
+
+body.intro-locked .top,
+body.intro-locked main,
+body.intro-locked .site-foot,
+body.intro-locked .wa,
+body.intro-locked #fb-root {
+  visibility: hidden;
+}
+
+.site-intro {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: #000;
+}
+
+.site-intro-video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: #000;
+}
+
+.site-intro-bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem 0.75rem;
+  padding: max(1rem, env(safe-area-inset-bottom)) 1rem 1.15rem;
+  background: linear-gradient(to top, rgb(0 0 0 / 72%), transparent);
+}
+
+.site-intro-bar button {
+  min-height: 44px;
+  padding: 0.55rem 1rem;
+  border: 0;
+  border-radius: 999px;
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.site-intro-enter {
+  color: #fff;
+  background: var(--brand-pink);
+  box-shadow: 0 4px 16px rgb(232 9 141 / 35%);
+}
+
+.site-intro-skip {
+  color: rgb(255 255 255 / 88%);
+  background: rgb(255 255 255 / 14%);
+  border: 1px solid rgb(255 255 255 / 28%);
+}
+
+.site-intro-unmute {
+  color: #fff;
+  background: rgb(255 255 255 / 10%);
+  border: 1px solid rgb(255 255 255 / 22%);
+}
+
+.site-intro-play {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 1rem;
+  border: 0;
+  color: #fff;
+  font: inherit;
+  font-size: 1.05rem;
+  font-weight: 700;
+  background: rgb(0 0 0 / 45%);
+  cursor: pointer;
+}
+
+.site-intro-play[hidden] {
+  display: none;
+}
+
+.site-intro-bar button:focus-visible,
+.site-intro-play:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-intro {
+    display: none;
+  }
+}

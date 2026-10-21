@@ -79,9 +79,89 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,560;9..144,680&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="styles.css?v=mobile6" />
+    <link rel="stylesheet" href="styles.css?v=intro1" />
   </head>
-  <body>
+  <body class="intro-locked">
+    <div class="site-intro" id="site-intro" role="dialog" aria-modal="true" aria-label="Welcome to Marlet Equestrian Centre">
+      <video
+        class="site-intro-video"
+        src="assets/intro.mp4"
+        autoplay
+        muted
+        playsinline
+        preload="auto"
+        disablepictureinpicture
+      ></video>
+      <div class="site-intro-bar">
+        <button type="button" class="site-intro-unmute" aria-pressed="true">Sound off · Tap for sound</button>
+        <button type="button" class="site-intro-enter" hidden>Enter site</button>
+        <button type="button" class="site-intro-skip">Skip intro</button>
+      </div>
+      <button type="button" class="site-intro-play" hidden>Tap to play</button>
+    </div>
+    <script>
+      (function () {
+        var intro = document.getElementById("site-intro");
+        if (!intro) return;
+
+        var video = intro.querySelector(".site-intro-video");
+        var enterBtn = intro.querySelector(".site-intro-enter");
+        var skipBtn = intro.querySelector(".site-intro-skip");
+        var unmuteBtn = intro.querySelector(".site-intro-unmute");
+        var playBtn = intro.querySelector(".site-intro-play");
+        var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+        function releaseIntro() {
+          if (!intro.isConnected) return;
+          intro.remove();
+          document.body.classList.remove("intro-locked");
+          document.documentElement.classList.remove("site-intro-active");
+          window.scrollTo(0, 0);
+        }
+
+        if (reduced) {
+          releaseIntro();
+          return;
+        }
+
+        document.documentElement.classList.add("site-intro-active");
+
+        function showEnter() {
+          enterBtn.hidden = false;
+          playBtn.hidden = false;
+        }
+
+        function tryPlay() {
+          var playPromise = video.play();
+          if (playPromise && playPromise.catch) {
+            playPromise.catch(function () {
+              showEnter();
+            });
+          }
+        }
+
+        video.addEventListener("ended", releaseIntro);
+        enterBtn.addEventListener("click", releaseIntro);
+        skipBtn.addEventListener("click", releaseIntro);
+        playBtn.addEventListener("click", function () {
+          playBtn.hidden = true;
+          tryPlay();
+        });
+
+        unmuteBtn.addEventListener("click", function () {
+          video.muted = !video.muted;
+          unmuteBtn.setAttribute("aria-pressed", video.muted ? "true" : "false");
+          unmuteBtn.textContent = video.muted ? "Sound off · Tap for sound" : "Sound on";
+          tryPlay();
+        });
+
+        if (video.readyState >= 2) {
+          tryPlay();
+        } else {
+          video.addEventListener("loadeddata", tryPlay, { once: true });
+        }
+      })();
+    </script>
     <header class="top">
       <a class="brand" href="#top">
         <img src="assets/logo-header.png?v=client" alt="Marlet Equestrian Centre" width="520" height="288" decoding="async" fetchpriority="high" />
