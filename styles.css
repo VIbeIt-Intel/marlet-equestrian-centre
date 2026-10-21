@@ -38,7 +38,8 @@ html {
   overflow-x: clip;
 }
 
-html.photo-zoom-open {
+html.photo-zoom-open,
+html.photo-zoom-restoring {
   scroll-behavior: auto;
 }
 
@@ -156,6 +157,12 @@ a {
 .top-social a:focus-visible {
   outline: 2px solid var(--brand-pink);
   outline-offset: 3px;
+}
+
+@media (max-width: 799px) and (prefers-reduced-motion: reduce) {
+  .stable-nav img {
+    transition: none;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1708,6 +1715,22 @@ main {
   .stable-nav {
     align-self: center;
     justify-content: center;
+  }
+
+  .stable-nav img {
+    max-height: 8.5rem;
+    transition: opacity 0.22s ease, max-height 0.28s ease, margin 0.28s ease;
+  }
+
+  .top.top--scrolled .stable-nav img {
+    opacity: 0;
+    max-height: 0;
+    margin: 0;
+    visibility: hidden;
+  }
+
+  .top.top--scrolled .stable-nav a {
+    gap: 0;
   }
 
   main section {
