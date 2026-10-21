@@ -754,14 +754,13 @@ html.look-studio section.hero {
   color: var(--c2);
 }
 
-.social-live {
+.social-stage {
   display: grid;
   gap: 1rem;
   margin-top: 1.2rem;
 }
 
 .social-embed {
-  display: grid;
   margin: 0;
   overflow: hidden;
   border-radius: 1rem;
@@ -769,35 +768,24 @@ html.look-studio section.hero {
   box-shadow: 0 8px 28px rgb(36 48 71 / 6%);
 }
 
-.social-embed iframe,
-.social-fb .fb-page {
+.social-embed iframe {
   width: 100%;
   max-width: 100%;
+  height: 640px;
   border: 0;
   background: #fff;
 }
 
-.social-fb .fb-page {
-  display: block;
-  min-height: 44px;
-}
-
-.social-embed iframe {
-  height: 560px;
-}
-
-.social-open {
-  min-height: 44px;
-  padding: 0.75rem 1rem;
-  font-family: var(--display);
-  font-style: italic;
-  font-weight: 680;
-  color: var(--c2);
+.social-links {
+  display: grid;
+  gap: 0.75rem;
+  align-content: start;
 }
 
 @media (min-width: 800px) {
-  .social-live {
-    grid-template-columns: 1fr 1fr;
+  .social-stage {
+    grid-template-columns: minmax(0, 1.4fr) minmax(16rem, 0.8fr);
+    align-items: start;
   }
 }
 
