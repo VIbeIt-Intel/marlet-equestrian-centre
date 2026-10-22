@@ -38,6 +38,12 @@ html {
   overflow-x: clip;
 }
 
+@media (min-width: 800px) {
+  html {
+    scroll-padding-top: 14.5rem;
+  }
+}
+
 html.photo-zoom-open,
 html.photo-zoom-restoring {
   scroll-behavior: auto;
@@ -625,23 +631,23 @@ h2 {
   padding: 0 1.05rem;
   border: 0;
   border-radius: 999px;
-  background: #fff;
-  color: var(--ink);
+  background: var(--brand-teal);
+  color: #fff;
   font: inherit;
   font-weight: 700;
   line-height: 1;
   white-space: nowrap;
   cursor: pointer;
-  box-shadow: 0 0 0 1px color-mix(in srgb, var(--ink) 16%, transparent);
+  box-shadow: 0 0.35rem 0.9rem rgb(26 154 145 / 28%);
 }
 
 .photo-zoom-nav:hover,
 .photo-zoom-nav:focus-visible {
-  background: #fff;
+  background: color-mix(in srgb, var(--brand-teal) 82%, #000);
 }
 
 .photo-zoom-nav:focus-visible {
-  outline: 2px solid var(--brand-pink);
+  outline: 2px solid var(--ink);
   outline-offset: 2px;
 }
 
