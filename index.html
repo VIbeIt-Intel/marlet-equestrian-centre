@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="preload" href="assets/intro.mp4" as="video" type="video/mp4" fetchpriority="high" />
+    <link rel="preload" href="assets/intro.mp4?v=2" as="video" type="video/mp4" fetchpriority="high" />
     <style>
       html.site-intro-active,
       body.intro-locked {
@@ -30,57 +30,7 @@
         height: 100%;
         object-fit: contain;
         background: #000;
-      }
-      .site-intro-bar {
-        position: absolute;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        justify-content: center;
-        gap: 0.55rem 0.75rem;
-        padding: max(1rem, env(safe-area-inset-bottom)) 1rem 1.15rem;
-        background: linear-gradient(to top, rgb(0 0 0 / 72%), transparent);
-      }
-      .site-intro-bar button {
-        min-height: 44px;
-        padding: 0.55rem 1rem;
-        border: 0;
-        border-radius: 999px;
-        font: inherit;
-        font-size: 0.88rem;
-        font-weight: 700;
-        cursor: pointer;
-      }
-      .site-intro-enter {
-        color: #fff;
-        background: #e8098d;
-      }
-      .site-intro-skip {
-        color: rgb(255 255 255 / 88%);
-        background: rgb(255 255 255 / 14%);
-        border: 1px solid rgb(255 255 255 / 28%);
-      }
-      .site-intro-unmute {
-        color: #fff;
-        background: rgb(255 255 255 / 10%);
-        border: 1px solid rgb(255 255 255 / 22%);
-      }
-      .site-intro-play {
-        position: absolute;
-        inset: 0;
-        border: 0;
-        color: #fff;
-        font: inherit;
-        font-size: 1.05rem;
-        font-weight: 700;
-        background: rgb(0 0 0 / 45%);
-        cursor: pointer;
-      }
-      .site-intro-play[hidden] {
-        display: none;
+        pointer-events: none;
       }
     </style>
     <script>
@@ -170,21 +120,15 @@
     <div class="site-intro" id="site-intro" role="dialog" aria-modal="true" aria-label="Welcome to Marlet Equestrian Centre">
       <video
         class="site-intro-video"
-        src="assets/intro.mp4"
+        src="assets/intro.mp4?v=2"
         autoplay
-        muted
         playsinline
         webkit-playsinline
         preload="auto"
         fetchpriority="high"
         disablepictureinpicture
+        controlslist="nodownload nofullscreen noremoteplayback"
       ></video>
-      <div class="site-intro-bar">
-        <button type="button" class="site-intro-unmute" aria-pressed="true">Sound off · Tap for sound</button>
-        <button type="button" class="site-intro-enter" hidden>Enter site</button>
-        <button type="button" class="site-intro-skip">Skip intro</button>
-      </div>
-      <button type="button" class="site-intro-play" hidden>Tap to play</button>
     </div>
     <script>
       (function () {
@@ -192,11 +136,8 @@
         if (!intro) return;
 
         var video = intro.querySelector(".site-intro-video");
-        var enterBtn = intro.querySelector(".site-intro-enter");
-        var skipBtn = intro.querySelector(".site-intro-skip");
-        var unmuteBtn = intro.querySelector(".site-intro-unmute");
-        var playBtn = intro.querySelector(".site-intro-play");
         var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        var playing = false;
 
         function loadDeferredSiteAssets() {
           if (document.getElementById("deferred-fonts")) return;
@@ -234,42 +175,58 @@
         }
 
         document.documentElement.classList.add("site-intro-active");
+        video.defaultMuted = false;
+        video.muted = false;
+        video.volume = 1;
+        video.setAttribute("playsinline", "");
         video.load();
 
-        function showEnter() {
-          enterBtn.hidden = false;
-          playBtn.hidden = false;
-        }
-
-        function tryPlay() {
-          var playPromise = video.play();
-          if (playPromise && playPromise.catch) {
-            playPromise.catch(function () {
-              showEnter();
-            });
+        function keepPlaying() {
+          if (!intro.isConnected || video.ended) return;
+          if (video.paused) {
+            var again = video.play();
+            if (again && again.catch) again.catch(function () {});
           }
         }
 
-        video.addEventListener("ended", releaseIntro);
-        enterBtn.addEventListener("click", releaseIntro);
-        skipBtn.addEventListener("click", releaseIntro);
-        playBtn.addEventListener("click", function () {
-          playBtn.hidden = true;
-          tryPlay();
-        });
-
-        unmuteBtn.addEventListener("click", function () {
-          video.muted = !video.muted;
-          unmuteBtn.setAttribute("aria-pressed", video.muted ? "true" : "false");
-          unmuteBtn.textContent = video.muted ? "Sound off · Tap for sound" : "Sound on";
-          tryPlay();
-        });
-
-        video.addEventListener("loadeddata", tryPlay, { once: true });
-        video.addEventListener("canplay", tryPlay, { once: true });
-        if (video.readyState >= 2) {
-          tryPlay();
+        function tryPlay() {
+          if (playing && !video.paused) return;
+          video.muted = false;
+          var withSound = video.play();
+          if (!withSound || !withSound.then) {
+            playing = true;
+            return;
+          }
+          withSound.then(function () {
+            playing = true;
+          }).catch(function () {
+            video.muted = true;
+            var mutedPlay = video.play();
+            if (mutedPlay && mutedPlay.then) {
+              mutedPlay.then(function () {
+                playing = true;
+              }).catch(function () {
+                playing = false;
+              });
+            }
+          });
         }
+
+        function unmute() {
+          video.muted = false;
+          video.volume = 1;
+          keepPlaying();
+        }
+
+        video.addEventListener("ended", releaseIntro);
+        video.addEventListener("pause", keepPlaying);
+        video.addEventListener("waiting", keepPlaying);
+        video.addEventListener("stalled", keepPlaying);
+        video.addEventListener("loadeddata", tryPlay);
+        video.addEventListener("canplay", tryPlay);
+        intro.addEventListener("pointerdown", unmute);
+        document.addEventListener("keydown", unmute);
+        if (video.readyState >= 2) tryPlay();
       })();
     </script>
     <header class="top">
