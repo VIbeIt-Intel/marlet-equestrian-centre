@@ -532,11 +532,12 @@ h2 {
 }
 
 .photo-zoom {
-  position: relative;
-  display: flex;
-  flex-direction: column;
+  position: fixed;
+  inset: 0;
+  z-index: 40;
   align-items: center;
   width: min(100% - 1.5rem, 52rem);
+  height: fit-content;
   max-height: calc(100vh - 1.5rem);
   max-height: calc(100svh - 1.5rem);
   margin: auto;
@@ -544,6 +545,15 @@ h2 {
   border: 0;
   border-radius: 0.75rem;
   background: #fff;
+}
+
+.photo-zoom:not([open]) {
+  display: none;
+}
+
+.photo-zoom[open] {
+  display: flex;
+  flex-direction: column;
 }
 
 .photo-zoom-stage {
