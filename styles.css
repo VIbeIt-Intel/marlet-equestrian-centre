@@ -1720,87 +1720,77 @@ main {
 }
 
 @media (max-width: 799px) {
+  :root {
+    --mobile-header: 2.75rem;
+  }
+
   .top {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
-    gap: 0.35rem;
-    text-align: center;
+    justify-content: space-between;
+    gap: 0.4rem;
+    min-height: var(--mobile-header);
+    padding: 0.15rem 0.7rem;
+    text-align: left;
   }
 
   .top > .brand,
-  .top > .top-center,
   .top > .stable-nav {
     grid-column: auto;
     grid-row: auto;
-    width: min(100%, 28rem);
-    max-width: 100%;
-    margin-inline: auto;
+    width: auto;
+    max-width: none;
+    margin-inline: 0;
+  }
+
+  .top-center {
+    display: none;
   }
 
   .brand {
-    justify-content: center;
+    flex: 0 0 auto;
+    justify-content: flex-start;
     align-items: center;
     align-self: center;
   }
 
   .brand img {
+    height: 2.05rem;
+    max-width: 6.5rem;
     object-position: center center;
-    margin-inline: auto;
-  }
-
-  .top-center {
-    align-items: center;
-    align-self: center;
-    flex: none;
-    width: min(100%, 28rem);
-    padding-top: 0;
-  }
-
-  .top-tagline {
-    width: 100%;
-    margin-inline: auto;
-    padding: 0;
-    text-align: center;
-  }
-
-  .top-social {
-    width: fit-content;
-    max-width: 100%;
-    margin-inline: auto;
-    justify-content: center;
-    flex: none;
-    padding: 0;
+    margin-inline: 0;
   }
 
   .stable-nav {
+    flex: 1 1 auto;
     align-self: center;
-    justify-content: center;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.1rem;
+    width: auto;
   }
 
   .stable-nav a {
-    overflow: hidden;
+    gap: 0;
+    font-size: 0.62rem;
+    line-height: 1.05;
+  }
+
+  .stable-nav a span {
+    min-height: 2.45rem;
+    padding: 0 0.12rem;
   }
 
   .stable-nav img {
-    max-height: 8.5rem;
-  }
-
-  .top.top--scrolled .stable-nav img {
     display: none;
-    width: 0;
-    height: 0;
-    max-height: 0;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    visibility: hidden;
-    pointer-events: none;
   }
 
-  .top.top--scrolled .stable-nav a {
-    gap: 0;
-    min-height: 0;
+  #services,
+  #gallery,
+  #hours,
+  #contact {
+    scroll-margin-top: var(--mobile-header);
   }
 
   main section {

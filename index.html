@@ -6,9 +6,25 @@
     <script>
       (function () {
         var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        var seen = false;
+        try {
+          seen = localStorage.getItem("mec-intro-seen") === "1";
+        } catch (e) {}
         var mobile = window.matchMedia("(max-width: 799px)").matches;
-        window.__mecIntroSrc = mobile ? "assets/intro-mobile.mp4?v=1" : "assets/intro.mp4?v=2";
-        if (reduced) return;
+        window.__mecIntroSrc = mobile ? "assets/intro-mobile.mp4?v=2" : "assets/intro.mp4?v=3";
+        window.__mecIntroPoster = mobile ? "assets/intro-poster-mobile.webp" : "assets/intro-poster.webp";
+        window.__mecSkipIntro = reduced || seen;
+        if (window.__mecSkipIntro) {
+          document.documentElement.classList.add("intro-skip");
+          return;
+        }
+        var poster = document.createElement("link");
+        poster.rel = "preload";
+        poster.as = "image";
+        poster.href = window.__mecIntroPoster;
+        poster.type = "image/webp";
+        poster.fetchPriority = "high";
+        document.head.appendChild(poster);
         var link = document.createElement("link");
         link.rel = "preload";
         link.as = "video";
@@ -59,6 +75,24 @@
           max-height: 100%;
           object-fit: contain;
         }
+      }
+      html.intro-skip,
+      html.intro-skip body.intro-locked {
+        overflow: visible;
+      }
+      html.intro-skip .site-intro {
+        display: none;
+      }
+      html.intro-skip body.intro-locked .top,
+      html.intro-skip body.intro-locked main,
+      html.intro-skip body.intro-locked .site-foot,
+      html.intro-skip body.intro-locked .wa,
+      html.intro-skip body.intro-locked #fb-root {
+        visibility: visible;
+      }
+      .site-intro.is-fading {
+        opacity: 0;
+        transition: opacity 0.4s ease;
       }
     </style>
     <script>
@@ -134,15 +168,15 @@
   }
 }
     </script>
-    <link rel="preload" href="styles.css?v=intro9" as="style" />
+    <link rel="preload" href="styles.css?v=intro10" as="style" />
     <link
       id="site-styles"
       rel="stylesheet"
-      href="styles.css?v=intro9"
+      href="styles.css?v=intro10"
       media="print"
       onload="this.media='all'"
     />
-    <noscript><link rel="stylesheet" href="styles.css?v=intro9" /></noscript>
+    <noscript><link rel="stylesheet" href="styles.css?v=intro10" /></noscript>
   </head>
   <body class="intro-locked">
     <div class="site-intro" id="site-intro" role="dialog" aria-modal="true" aria-label="Welcome to Marlet Equestrian Centre">
@@ -166,6 +200,8 @@
         var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
         var playing = false;
         var leaving = false;
+        var playbackStarted = false;
+        var startTimer = 0;
 
         function loadDeferredSiteAssets() {
           if (document.getElementById("deferred-fonts")) return;
@@ -187,8 +223,14 @@
         }
 
         function releaseIntro() {
-          if (leaving || !intro.isConnected) return;
+          if (!intro.isConnected) return;
+          if (leaving) {
+            video.pause();
+            intro.remove();
+            return;
+          }
           leaving = true;
+          window.clearTimeout(startTimer);
           video.pause();
           intro.remove();
           document.body.classList.remove("intro-locked");
@@ -198,18 +240,54 @@
           window.scrollTo(0, 0);
         }
 
-        if (reduced) {
+        function fadeIntoSite() {
+          if (leaving || !intro.isConnected) return;
+          leaving = true;
+          window.clearTimeout(startTimer);
+          video.pause();
+          document.body.classList.remove("intro-locked");
+          document.documentElement.classList.remove("site-intro-active");
+          loadDeferredSiteAssets();
+          window.dispatchEvent(new Event("mec-intro-done"));
+          intro.classList.add("is-fading");
+          var finished = false;
+          function finish() {
+            if (finished || !intro.isConnected) return;
+            finished = true;
+            video.pause();
+            intro.remove();
+            window.scrollTo(0, 0);
+          }
+          intro.addEventListener("transitionend", function (event) {
+            if (event.propertyName === "opacity") finish();
+          });
+          window.setTimeout(finish, 600);
+        }
+
+        if (window.__mecSkipIntro || reduced) {
           loadDeferredSiteAssets();
           releaseIntro();
           return;
         }
 
+        try {
+          localStorage.setItem("mec-intro-seen", "1");
+        } catch (e) {}
+
         document.documentElement.classList.add("site-intro-active");
-        video.src = window.__mecIntroSrc || "assets/intro.mp4?v=2";
+        if (window.__mecIntroPoster) video.poster = window.__mecIntroPoster;
+        video.src = window.__mecIntroSrc || "assets/intro.mp4?v=3";
         video.defaultMuted = false;
         video.muted = false;
         video.volume = 1;
         video.setAttribute("playsinline", "");
+        video.addEventListener("playing", function () {
+          playbackStarted = true;
+          window.clearTimeout(startTimer);
+        });
+        startTimer = window.setTimeout(function () {
+          if (!playbackStarted) fadeIntoSite();
+        }, 2000);
         video.load();
 
         function keepPlaying() {
@@ -226,16 +304,22 @@
           var withSound = video.play();
           if (!withSound || !withSound.then) {
             playing = true;
+            playbackStarted = true;
+            window.clearTimeout(startTimer);
             return;
           }
           withSound.then(function () {
             playing = true;
+            playbackStarted = true;
+            window.clearTimeout(startTimer);
           }).catch(function () {
             video.muted = true;
             var mutedPlay = video.play();
             if (mutedPlay && mutedPlay.then) {
               mutedPlay.then(function () {
                 playing = true;
+                playbackStarted = true;
+                window.clearTimeout(startTimer);
               }).catch(function () {
                 playing = false;
               });
