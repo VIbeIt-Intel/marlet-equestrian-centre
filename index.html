@@ -24,6 +24,7 @@
         flex-direction: column;
         justify-content: center;
         background: #000;
+        cursor: pointer;
       }
       .site-intro-video {
         width: 100%;
@@ -106,15 +107,15 @@
   }
 }
     </script>
-    <link rel="preload" href="styles.css?v=intro7" as="style" />
+    <link rel="preload" href="styles.css?v=intro8" as="style" />
     <link
       id="site-styles"
       rel="stylesheet"
-      href="styles.css?v=intro7"
+      href="styles.css?v=intro8"
       media="print"
       onload="this.media='all'"
     />
-    <noscript><link rel="stylesheet" href="styles.css?v=intro7" /></noscript>
+    <noscript><link rel="stylesheet" href="styles.css?v=intro8" /></noscript>
   </head>
   <body class="intro-locked">
     <div class="site-intro" id="site-intro" role="dialog" aria-modal="true" aria-label="Welcome to Marlet Equestrian Centre">
@@ -138,6 +139,7 @@
         var video = intro.querySelector(".site-intro-video");
         var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
         var playing = false;
+        var leaving = false;
 
         function loadDeferredSiteAssets() {
           if (document.getElementById("deferred-fonts")) return;
@@ -159,7 +161,9 @@
         }
 
         function releaseIntro() {
-          if (!intro.isConnected) return;
+          if (leaving || !intro.isConnected) return;
+          leaving = true;
+          video.pause();
           intro.remove();
           document.body.classList.remove("intro-locked");
           document.documentElement.classList.remove("site-intro-active");
@@ -182,7 +186,7 @@
         video.load();
 
         function keepPlaying() {
-          if (!intro.isConnected || video.ended) return;
+          if (leaving || !intro.isConnected || video.ended) return;
           if (video.paused) {
             var again = video.play();
             if (again && again.catch) again.catch(function () {});
@@ -224,6 +228,7 @@
         video.addEventListener("stalled", keepPlaying);
         video.addEventListener("loadeddata", tryPlay);
         video.addEventListener("canplay", tryPlay);
+        intro.addEventListener("click", releaseIntro);
         intro.addEventListener("pointerdown", unmute);
         document.addEventListener("keydown", unmute);
         if (video.readyState >= 2) tryPlay();

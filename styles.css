@@ -2020,32 +2020,46 @@ main {
 }
 
 .foot-base {
-  margin-top: 1.15rem;
-  padding-top: 1.15rem;
-  border-top: 1px solid color-mix(in srgb, var(--ink) 10%, transparent);
+  position: relative;
+  z-index: 0;
+  margin: 1.6rem calc(50% - 50vw) calc(-1 * (2.75rem + env(safe-area-inset-bottom)));
+  padding: 1.45rem 1rem calc(1.7rem + env(safe-area-inset-bottom));
+  border-top: 0;
+  background: #000;
+  text-align: center;
 }
 
-.footer-vibeit {
+.site-foot a.footer-vibeit {
   display: grid;
   justify-items: center;
+  gap: 0.05rem;
   width: fit-content;
+  min-height: 0;
   margin: 0 auto;
+  color: #fff;
+  text-decoration: none;
+}
+
+.site-foot a.footer-vibeit:hover,
+.site-foot a.footer-vibeit:focus-visible {
+  color: #fff;
   text-decoration: none;
 }
 
 .footer-vibeit-sign {
   font-family: Georgia, "Times New Roman", serif;
   font-style: italic;
-  font-size: 0.95rem;
-  letter-spacing: 0.06em;
-  color: color-mix(in srgb, var(--ink) 55%, transparent);
+  font-size: 1.05rem;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  color: #fff;
   text-align: center;
 }
 
 .footer-vibeit img {
-  width: 6.4rem;
-  height: 6.4rem;
-  margin: 0.2rem 0 0.05rem;
+  width: 5.6rem;
+  height: 5.6rem;
+  margin: 0.05rem 0 0;
   object-fit: contain;
   pointer-events: none;
   background: transparent;
@@ -2054,8 +2068,8 @@ main {
 .footer-vibeit-cta {
   font-family: Georgia, "Times New Roman", serif;
   font-style: italic;
-  font-size: 1.02rem;
-  letter-spacing: 0.05em;
+  font-size: 1.12rem;
+  letter-spacing: 0.03em;
   text-align: center;
   background-image: linear-gradient(105deg, #c45cff 0%, #7a5cff 22%, #2ad6ff 52%, #ff9a3c 86%, #ff7a2e 100%);
   -webkit-background-clip: text;
@@ -2066,7 +2080,7 @@ main {
 
 .site-foot .footer-vibeit:hover .footer-vibeit-sign,
 .site-foot .footer-vibeit:focus-visible .footer-vibeit-sign {
-  color: var(--ink);
+  color: #fff;
 }
 
 @media (min-width: 640px) {
@@ -2156,6 +2170,7 @@ body.intro-locked #fb-root {
   flex-direction: column;
   justify-content: center;
   background: #000;
+  cursor: pointer;
 }
 
 .site-intro-video {
