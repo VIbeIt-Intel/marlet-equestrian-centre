@@ -159,12 +159,6 @@ a {
   outline-offset: 3px;
 }
 
-@media (max-width: 799px) and (prefers-reduced-motion: reduce) {
-  .stable-nav img {
-    transition: none;
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   .top-social a {
     transition: none;
@@ -1717,20 +1711,29 @@ main {
     justify-content: center;
   }
 
+  .stable-nav a {
+    overflow: hidden;
+  }
+
   .stable-nav img {
     max-height: 8.5rem;
-    transition: opacity 0.22s ease, max-height 0.28s ease, margin 0.28s ease;
   }
 
   .top.top--scrolled .stable-nav img {
-    opacity: 0;
+    display: none;
+    width: 0;
+    height: 0;
     max-height: 0;
     margin: 0;
+    padding: 0;
+    overflow: hidden;
     visibility: hidden;
+    pointer-events: none;
   }
 
   .top.top--scrolled .stable-nav a {
     gap: 0;
+    min-height: 0;
   }
 
   main section {
