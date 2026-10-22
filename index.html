@@ -164,15 +164,15 @@
   }
 }
     </script>
-    <link rel="preload" href="styles.css?v=zoom2" as="style" />
+    <link rel="preload" href="styles.css?v=zoom3" as="style" />
     <link
       id="site-styles"
       rel="stylesheet"
-      href="styles.css?v=zoom2"
+      href="styles.css?v=zoom3"
       media="print"
       onload="this.media='all'"
     />
-    <noscript><link rel="stylesheet" href="styles.css?v=zoom2" /></noscript>
+    <noscript><link rel="stylesheet" href="styles.css?v=zoom3" /></noscript>
   </head>
   <body class="intro-locked">
     <div class="site-intro" id="site-intro" role="dialog" aria-modal="true" aria-label="Welcome to Marlet Equestrian Centre">
@@ -1076,11 +1076,57 @@
           );
         }
 
+        function whenDecoded(src) {
+          return new Promise(function (resolve, reject) {
+            var image = new Image();
+            var settled = false;
+            function succeed() {
+              if (settled) return;
+              if (!image.naturalWidth) {
+                fail();
+                return;
+              }
+              settled = true;
+              resolve(image);
+            }
+            function fail() {
+              if (settled) return;
+              settled = true;
+              reject(new Error("image"));
+            }
+            image.onload = function () {
+              if (image.decode) image.decode().then(succeed, succeed);
+              else succeed();
+            };
+            image.onerror = fail;
+            image.src = src;
+            if (image.complete) {
+              if (image.naturalWidth) {
+                if (image.decode) image.decode().then(succeed, succeed);
+                else succeed();
+              } else {
+                fail();
+              }
+            }
+          });
+        }
+
+        function placeZoomImage(prepared, request) {
+          if (request !== zoomRequest || !prepared.naturalWidth) return;
+          zoomImg.replaceWith(prepared);
+          zoomImg = prepared;
+          zoom.classList.remove("is-loading");
+          if (!zoom.open) {
+            lockPageScroll();
+            zoom.showModal();
+          }
+        }
+
         function openZoomFromButton(btn) {
           var img = btn.querySelector("img");
           var nextSrc = btn.getAttribute("data-enlarge");
           if (!nextSrc) return;
-          zoomImg.alt = img ? img.alt : "";
+          var alt = img ? img.alt : "";
           var list = visibleGalleryPhotos();
           zoomIndex = list.indexOf(btn);
           if (zoomIndex < 0) zoomIndex = 0;
@@ -1090,45 +1136,33 @@
 
           var request = ++zoomRequest;
           var expectedSrc = new URL(nextSrc, document.baseURI).href;
-          var samePhoto = zoomImg.src === expectedSrc && zoomImg.complete && zoomImg.naturalWidth > 0;
-
-          function reveal() {
-            if (request !== zoomRequest) return;
-            zoom.classList.remove("is-loading");
+          if (zoomImg.src === expectedSrc && zoomImg.complete && zoomImg.naturalWidth > 0) {
+            zoomImg.alt = alt;
             if (!zoom.open) {
               lockPageScroll();
               zoom.showModal();
             }
-          }
-
-          if (samePhoto) {
-            reveal();
             return;
           }
 
-          zoom.classList.add("is-loading");
-          if (!zoom.open) {
+          var thumbSrc = img && (img.currentSrc || img.src);
+          var thumbUrl = thumbSrc ? new URL(thumbSrc, document.baseURI).href : "";
+          if (thumbUrl && thumbUrl !== expectedSrc && img.complete && img.naturalWidth > 0) {
+            whenDecoded(thumbSrc).then(function (prepared) {
+              if (zoomImg.src === expectedSrc && zoomImg.complete && zoomImg.naturalWidth > 0) return;
+              prepared.alt = alt;
+              placeZoomImage(prepared, request);
+            }, function () {});
+          }
+
+          whenDecoded(nextSrc).then(function (prepared) {
+            prepared.alt = alt;
+            placeZoomImage(prepared, request);
+          }, function () {
+            if (request !== zoomRequest || zoom.open) return;
             lockPageScroll();
             zoom.showModal();
-          }
-
-          zoomImg.onload = null;
-          zoomImg.onerror = null;
-          zoomImg.src = nextSrc;
-
-          function finish() {
-            if (request !== zoomRequest) return;
-            if (zoomImg.src !== expectedSrc || !zoomImg.complete) return;
-            reveal();
-          }
-
-          if (zoomImg.decode) {
-            zoomImg.decode().then(finish, finish);
-          } else {
-            zoomImg.addEventListener("load", finish, { once: true });
-            zoomImg.addEventListener("error", finish, { once: true });
-            if (zoomImg.complete) finish();
-          }
+          });
         }
 
         function closeZoom() {

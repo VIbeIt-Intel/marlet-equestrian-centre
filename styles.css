@@ -577,10 +577,6 @@ h2 {
   object-fit: contain;
 }
 
-.photo-zoom.is-loading img {
-  visibility: hidden;
-}
-
 .photo-zoom-close {
   position: absolute;
   top: 0.45rem;
