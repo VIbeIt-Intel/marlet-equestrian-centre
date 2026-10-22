@@ -164,15 +164,15 @@
   }
 }
     </script>
-    <link rel="preload" href="styles.css?v=zoom1" as="style" />
+    <link rel="preload" href="styles.css?v=zoom2" as="style" />
     <link
       id="site-styles"
       rel="stylesheet"
-      href="styles.css?v=zoom1"
+      href="styles.css?v=zoom2"
       media="print"
       onload="this.media='all'"
     />
-    <noscript><link rel="stylesheet" href="styles.css?v=zoom1" /></noscript>
+    <noscript><link rel="stylesheet" href="styles.css?v=zoom2" /></noscript>
   </head>
   <body class="intro-locked">
     <div class="site-intro" id="site-intro" role="dialog" aria-modal="true" aria-label="Welcome to Marlet Equestrian Centre">
@@ -972,6 +972,7 @@
         var zoomPrev = zoom.querySelector(".photo-zoom-nav--prev");
         var zoomNext = zoom.querySelector(".photo-zoom-nav--next");
         var zoomIndex = 0;
+        var zoomRequest = 0;
         var zoomScrollY = 0;
 
         function lockPageScroll() {
@@ -1077,7 +1078,8 @@
 
         function openZoomFromButton(btn) {
           var img = btn.querySelector("img");
-          zoomImg.src = btn.getAttribute("data-enlarge");
+          var nextSrc = btn.getAttribute("data-enlarge");
+          if (!nextSrc) return;
           zoomImg.alt = img ? img.alt : "";
           var list = visibleGalleryPhotos();
           zoomIndex = list.indexOf(btn);
@@ -1085,8 +1087,48 @@
           var showNav = list.length > 1 && btn.classList.contains("gallery-photo");
           if (zoomPrev) zoomPrev.hidden = !showNav;
           if (zoomNext) zoomNext.hidden = !showNav;
-          if (!zoom.open) lockPageScroll();
-          zoom.showModal();
+
+          var request = ++zoomRequest;
+          var expectedSrc = new URL(nextSrc, document.baseURI).href;
+          var samePhoto = zoomImg.src === expectedSrc && zoomImg.complete && zoomImg.naturalWidth > 0;
+
+          function reveal() {
+            if (request !== zoomRequest) return;
+            zoom.classList.remove("is-loading");
+            if (!zoom.open) {
+              lockPageScroll();
+              zoom.showModal();
+            }
+          }
+
+          if (samePhoto) {
+            reveal();
+            return;
+          }
+
+          zoom.classList.add("is-loading");
+          if (!zoom.open) {
+            lockPageScroll();
+            zoom.showModal();
+          }
+
+          zoomImg.onload = null;
+          zoomImg.onerror = null;
+          zoomImg.src = nextSrc;
+
+          function finish() {
+            if (request !== zoomRequest) return;
+            if (zoomImg.src !== expectedSrc || !zoomImg.complete) return;
+            reveal();
+          }
+
+          if (zoomImg.decode) {
+            zoomImg.decode().then(finish, finish);
+          } else {
+            zoomImg.addEventListener("load", finish, { once: true });
+            zoomImg.addEventListener("error", finish, { once: true });
+            if (zoomImg.complete) finish();
+          }
         }
 
         function closeZoom() {
@@ -1145,6 +1187,8 @@
           if (event.target === zoom) closeZoom();
         });
         zoom.addEventListener("close", function () {
+          zoomRequest += 1;
+          zoom.classList.remove("is-loading");
           unlockPageScroll();
         });
 
