@@ -2174,9 +2174,12 @@ body.intro-locked #fb-root {
 }
 
 .site-intro-video {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center;
   background: #000;
   pointer-events: none;
 }
