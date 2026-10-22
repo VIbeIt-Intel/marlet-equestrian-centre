@@ -780,7 +780,7 @@
           }
 
           function reelAutoSpeed() {
-            return reelLoop > 0 ? reelLoop / 180 : 0;
+            return reelLoop > 0 ? reelLoop / 145 : 0;
           }
 
           function reelStopManual() {
@@ -843,13 +843,15 @@
             reelDragMoved = false;
             reelDragStartX = event.clientX;
             reelDragStartOffset = reelOffset;
-            reel.setPointerCapture(event.pointerId);
           });
 
           reel.addEventListener("pointermove", function (event) {
             if (!reelDragActive || reelReduced) return;
             var delta = event.clientX - reelDragStartX;
             if (!reelDragMoved && Math.abs(delta) < REEL_DRAG_THRESHOLD) return;
+            if (!reelDragMoved && reel.setPointerCapture) {
+              reel.setPointerCapture(event.pointerId);
+            }
             reelDragMoved = true;
             reel.classList.add("reel--dragging");
             reelOffset = reelDragStartOffset - delta;
