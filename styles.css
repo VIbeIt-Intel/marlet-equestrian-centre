@@ -687,39 +687,46 @@ h2 {
 .gallery-filters {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.45rem;
-  padding: 0.15rem 0;
+  align-items: flex-end;
+  gap: 0.15rem 1.25rem;
+  padding: 0.15rem 0 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--ink) 14%, transparent);
 }
 
 .gallery-filter {
-  min-height: 40px;
-  padding: 0.4rem 0.95rem;
-  border-radius: 999px;
-  border: 1px solid color-mix(in srgb, var(--ink) 14%, transparent);
-  background: #fff;
-  color: var(--ink);
+  min-height: 44px;
+  margin-bottom: -1px;
+  padding: 0.45rem 0.05rem 0.55rem;
+  border: 0;
+  border-bottom: 1px solid transparent;
+  border-radius: 0;
+  background: transparent;
+  color: color-mix(in srgb, var(--ink) 58%, transparent);
   font: inherit;
-  font-size: 0.88rem;
+  font-size: 0.74rem;
   font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
   cursor: pointer;
-  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+  transition: color 0.15s ease, border-color 0.15s ease;
 }
 
 .gallery-filter:hover,
 .gallery-filter:focus-visible {
-  border-color: color-mix(in srgb, var(--brand-teal) 45%, transparent);
+  border-color: transparent;
   color: var(--brand-teal);
+  background: transparent;
 }
 
 .gallery-filter.is-active {
-  background: var(--brand-teal);
-  border-color: var(--brand-teal);
-  color: #fff;
+  background: transparent;
+  border-bottom-color: var(--brand-pink);
+  color: var(--ink);
 }
 
 .gallery-filter:focus-visible {
   outline: 2px solid var(--brand-pink);
-  outline-offset: 2px;
+  outline-offset: 3px;
 }
 
 .gallery-meta {
@@ -990,6 +997,16 @@ main {
   display: flex;
   flex-direction: column;
   gap: 0.7rem;
+}
+
+.look-studio .hero-copy {
+  align-items: center;
+  text-align: center;
+}
+
+.hero-line {
+  display: block;
+  margin-top: 0.45rem;
 }
 
 .look-studio .hero .eyebrow {
@@ -2144,7 +2161,7 @@ body.intro-locked #fb-root {
 .site-intro-video {
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
   background: #000;
   pointer-events: none;
 }
