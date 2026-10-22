@@ -936,6 +936,56 @@ main {
   padding: 0.85rem 0 1rem;
 }
 
+.look-studio .hero,
+.look-studio #gallery,
+.look-studio #contact {
+  --section-wash: color-mix(in srgb, var(--brand-teal) 14%, #fff);
+}
+
+.look-studio #services,
+.look-studio #hours {
+  --section-wash: color-mix(in srgb, var(--brand-pink) 12%, #fff);
+}
+
+.look-studio .hero,
+.look-studio #services,
+.look-studio #gallery,
+.look-studio #hours,
+.look-studio #contact {
+  position: relative;
+  background: var(--section-wash);
+}
+
+.look-studio .hero::before,
+.look-studio #services::before,
+.look-studio #gallery::before,
+.look-studio #hours::before,
+.look-studio #contact::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 100vw;
+  transform: translateX(-50%);
+  background: var(--section-wash);
+  pointer-events: none;
+}
+
+.look-studio .hero > *,
+.look-studio #services > *,
+.look-studio #gallery > *,
+.look-studio #hours > *,
+.look-studio #contact > * {
+  position: relative;
+  z-index: 1;
+}
+
+.look-studio .cards li {
+  background: #fff;
+}
+
 .hero-copy {
   display: flex;
   flex-direction: column;
@@ -1976,11 +2026,12 @@ main {
 }
 
 .footer-vibeit img {
-  width: 4.6rem;
-  height: 4.6rem;
-  margin: 0.15rem 0 0.05rem;
+  width: 6.4rem;
+  height: 6.4rem;
+  margin: 0.2rem 0 0.05rem;
   object-fit: contain;
   pointer-events: none;
+  background: transparent;
 }
 
 .footer-vibeit-cta {
