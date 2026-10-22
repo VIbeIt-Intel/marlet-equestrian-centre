@@ -2184,6 +2184,17 @@ body.intro-locked #fb-root {
   pointer-events: none;
 }
 
+@media (max-width: 799px) {
+  .site-intro-video {
+    position: static;
+    inset: auto;
+    width: 100%;
+    height: auto;
+    max-height: 100%;
+    object-fit: contain;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .site-intro {
     display: none;
