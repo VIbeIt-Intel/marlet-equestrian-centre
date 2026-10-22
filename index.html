@@ -3,7 +3,21 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="preload" href="assets/intro.mp4?v=2" as="video" type="video/mp4" fetchpriority="high" />
+    <script>
+      (function () {
+        var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        var mobile = window.matchMedia("(max-width: 799px)").matches;
+        window.__mecIntroSrc = mobile ? "assets/intro-mobile.mp4?v=1" : "assets/intro.mp4?v=2";
+        if (reduced) return;
+        var link = document.createElement("link");
+        link.rel = "preload";
+        link.as = "video";
+        link.href = window.__mecIntroSrc;
+        link.type = "video/mp4";
+        link.fetchPriority = "high";
+        document.head.appendChild(link);
+      })();
+    </script>
     <style>
       html.site-intro-active,
       body.intro-locked {
@@ -134,7 +148,6 @@
     <div class="site-intro" id="site-intro" role="dialog" aria-modal="true" aria-label="Welcome to Marlet Equestrian Centre">
       <video
         class="site-intro-video"
-        src="assets/intro.mp4?v=2"
         autoplay
         playsinline
         webkit-playsinline
@@ -192,6 +205,7 @@
         }
 
         document.documentElement.classList.add("site-intro-active");
+        video.src = window.__mecIntroSrc || "assets/intro.mp4?v=2";
         video.defaultMuted = false;
         video.muted = false;
         video.volume = 1;
@@ -443,9 +457,7 @@
             <li data-gallery="yard"><button type="button" class="gallery-photo" data-enlarge="assets/extra-12.jpg" aria-label="Enlarge photo: group ride"><img src="assets/thumbs/extra-12.jpg" alt="Group of riders on school horses at sunset" loading="lazy" /></button></li>
             <li data-gallery="yard"><button type="button" class="gallery-photo" data-enlarge="assets/extra-37.jpg" aria-label="Enlarge photo: horses at a show"><img src="assets/thumbs/extra-37.jpg" alt="Horses at a show" loading="lazy" /></button></li>
             <li data-gallery="yard"><button type="button" class="gallery-photo" data-enlarge="assets/extra-38.jpg" aria-label="Enlarge photo: paddock"><img src="assets/thumbs/extra-38.jpg" alt="Horses grazing in the paddock" loading="lazy" /></button></li>
-            <li data-gallery="yard"><button type="button" class="gallery-photo" data-enlarge="assets/extra-39.jpg" aria-label="Enlarge photo: foal with mare in the paddock"><img src="assets/thumbs/extra-39.jpg" alt="Young foal standing beside a mare in the paddock" loading="lazy" /></button></li>
             <li data-gallery="yard"><button type="button" class="gallery-photo" data-enlarge="assets/extra-41.jpg" aria-label="Enlarge photo: horses at the feeding trough"><img src="assets/thumbs/extra-41.jpg" alt="Horses feeding at a wooden trough in the yard" loading="lazy" /></button></li>
-            <li data-gallery="yard"><button type="button" class="gallery-photo" data-enlarge="assets/extra-47.jpg" aria-label="Enlarge photo: foal in the field"><img src="assets/thumbs/extra-47.jpg" alt="Foal in a grassy paddock at the yard" loading="lazy" /></button></li>
             <li data-gallery="lessons"><button type="button" class="gallery-photo" data-enlarge="assets/extra-42.jpg" aria-label="Enlarge photo: schooling in the outdoor arena"><img src="assets/thumbs/extra-42.jpg" alt="Rider schooling a horse in the outdoor arena" loading="lazy" /></button></li>
             <li data-gallery="jumping"><button type="button" class="gallery-photo" data-enlarge="assets/extra-44.jpg" aria-label="Enlarge photo: jumping a school fence"><img src="assets/thumbs/extra-44.jpg" alt="Horse and rider over a white showjumping fence" loading="lazy" /></button></li>
             <li data-gallery="jumping"><button type="button" class="gallery-photo" data-enlarge="assets/extra-46.jpg" aria-label="Enlarge photo: showjumping round outdoors"><img src="assets/thumbs/extra-46.jpg" alt="Rider jumping a horse over an outdoor fence" loading="lazy" /></button></li>
