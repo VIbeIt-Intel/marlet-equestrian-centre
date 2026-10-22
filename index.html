@@ -168,15 +168,15 @@
   }
 }
     </script>
-    <link rel="preload" href="styles.css?v=intro10" as="style" />
+    <link rel="preload" href="styles.css?v=intro11" as="style" />
     <link
       id="site-styles"
       rel="stylesheet"
-      href="styles.css?v=intro10"
+      href="styles.css?v=intro11"
       media="print"
       onload="this.media='all'"
     />
-    <noscript><link rel="stylesheet" href="styles.css?v=intro10" /></noscript>
+    <noscript><link rel="stylesheet" href="styles.css?v=intro11" /></noscript>
   </head>
   <body class="intro-locked">
     <div class="site-intro" id="site-intro" role="dialog" aria-modal="true" aria-label="Welcome to Marlet Equestrian Centre">
@@ -805,9 +805,11 @@
     <script src="social-feeds.js" defer></script>
     <dialog class="photo-zoom">
       <button type="button" class="photo-zoom-close" aria-label="Close photo">Close</button>
-      <button type="button" class="photo-zoom-nav photo-zoom-nav--prev" aria-label="Previous photo">Previous</button>
-      <button type="button" class="photo-zoom-nav photo-zoom-nav--next" aria-label="Next photo">Next</button>
-      <img alt="" />
+      <div class="photo-zoom-stage">
+        <button type="button" class="photo-zoom-nav photo-zoom-nav--prev" aria-label="Previous photo">Previous</button>
+        <button type="button" class="photo-zoom-nav photo-zoom-nav--next" aria-label="Next photo">Next</button>
+        <img alt="" />
+      </div>
     </dialog>
     <script>
       (function () {
