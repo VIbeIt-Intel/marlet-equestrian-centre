@@ -164,15 +164,15 @@
   }
 }
     </script>
-    <link rel="preload" href="styles.css?v=intro13" as="style" />
+    <link rel="preload" href="styles.css?v=intro15" as="style" />
     <link
       id="site-styles"
       rel="stylesheet"
-      href="styles.css?v=intro13"
+      href="styles.css?v=intro15"
       media="print"
       onload="this.media='all'"
     />
-    <noscript><link rel="stylesheet" href="styles.css?v=intro13" /></noscript>
+    <noscript><link rel="stylesheet" href="styles.css?v=intro15" /></noscript>
   </head>
   <body class="intro-locked">
     <div class="site-intro" id="site-intro" role="dialog" aria-modal="true" aria-label="Welcome to Marlet Equestrian Centre">
@@ -337,6 +337,7 @@
         if (video.readyState >= 2) tryPlay();
       })();
     </script>
+    <div class="top-scroll-spacer" aria-hidden="true"></div>
     <header class="top">
       <a class="brand" href="#top">
         <img src="assets/logo-header.png?v=client" alt="Marlet Equestrian Centre" width="520" height="288" decoding="async" loading="lazy" fetchpriority="low" />
@@ -984,19 +985,44 @@
         }
 
         var topBar = document.querySelector(".top");
+        var topSpacer = document.querySelector(".top-scroll-spacer");
         var mobileHeaderMq = window.matchMedia("(max-width: 799px)");
-        var topScrollThreshold = 40;
         var topScrollScheduled = false;
+        var topPinAt = 0;
+
+        function clearPinnedHeader() {
+          if (topBar) topBar.classList.remove("top--scrolled");
+          topPinAt = 0;
+          if (topSpacer) {
+            topSpacer.classList.remove("is-active");
+            topSpacer.style.height = "";
+          }
+        }
 
         function syncTopScrollState() {
           topScrollScheduled = false;
           if (!topBar) return;
+          if (document.documentElement.classList.contains("photo-zoom-open")) return;
           if (!mobileHeaderMq.matches) {
-            topBar.classList.remove("top--scrolled");
+            clearPinnedHeader();
             return;
           }
           var y = window.scrollY || window.pageYOffset || 0;
-          topBar.classList.toggle("top--scrolled", y > topScrollThreshold);
+          var pinned = topBar.classList.contains("top--scrolled");
+          if (!pinned) {
+            var stallImg = topBar.querySelector(".stable-nav img");
+            var photosGone = stallImg && stallImg.getBoundingClientRect().bottom <= 0;
+            if (y > 8 && photosGone) {
+              if (topSpacer) {
+                topSpacer.style.height = topBar.offsetHeight + "px";
+                topSpacer.classList.add("is-active");
+              }
+              topPinAt = y;
+              topBar.classList.add("top--scrolled");
+            }
+            return;
+          }
+          if (y < topPinAt - 24) clearPinnedHeader();
         }
 
         function scheduleTopScrollState() {

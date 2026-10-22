@@ -64,6 +64,12 @@ a {
   text-decoration: none;
 }
 
+.top-scroll-spacer {
+  display: none;
+  width: 100%;
+  pointer-events: none;
+}
+
 .top {
   position: sticky;
   top: 0;
@@ -1740,6 +1746,7 @@ main {
   }
 
   .top {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -1748,7 +1755,12 @@ main {
     text-align: center;
   }
 
+  .top-scroll-spacer.is-active {
+    display: block;
+  }
+
   .top > .brand,
+  .top > .top-center,
   .top > .stable-nav {
     grid-column: auto;
     grid-row: auto;
@@ -1758,7 +1770,29 @@ main {
   }
 
   .top-center {
-    display: none;
+    display: flex;
+    align-items: center;
+    align-self: center;
+    flex: none;
+    gap: 0.35rem;
+    width: min(100%, 28rem);
+    padding-top: 0;
+  }
+
+  .top-tagline {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+  }
+
+  .top-social {
+    width: fit-content;
+    max-width: 100%;
+    margin-inline: auto;
+    justify-content: center;
+    flex: none;
+    padding: 0;
   }
 
   .brand {
@@ -1801,6 +1835,10 @@ main {
   }
 
   .top.top--scrolled {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
@@ -1846,6 +1884,7 @@ main {
     padding: 0 0.12rem;
   }
 
+  .top.top--scrolled .top-center,
   .top.top--scrolled .stable-nav img {
     display: none;
   }
