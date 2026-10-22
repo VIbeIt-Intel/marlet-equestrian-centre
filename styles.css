@@ -688,32 +688,32 @@ h2 {
   display: flex;
   flex-wrap: wrap;
   align-items: flex-end;
-  gap: 0.15rem 1.25rem;
-  padding: 0.15rem 0 0;
-  border-bottom: 1px solid color-mix(in srgb, var(--ink) 14%, transparent);
+  gap: 0.15rem 1.45rem;
+  padding: 0.2rem 0 0.1rem;
+  border-bottom: 0;
 }
 
 .gallery-filter {
   min-height: 44px;
-  margin-bottom: -1px;
-  padding: 0.45rem 0.05rem 0.55rem;
+  margin-bottom: 0;
+  padding: 0.35rem 0.02rem 0.4rem;
   border: 0;
-  border-bottom: 1px solid transparent;
+  border-bottom: 2px solid transparent;
   border-radius: 0;
   background: transparent;
-  color: color-mix(in srgb, var(--ink) 58%, transparent);
-  font: inherit;
-  font-size: 0.74rem;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+  color: var(--ink);
+  font-family: var(--display);
+  font-size: 1.05rem;
+  font-weight: 560;
+  letter-spacing: -0.02em;
+  text-transform: none;
   cursor: pointer;
   transition: color 0.15s ease, border-color 0.15s ease;
 }
 
 .gallery-filter:hover,
 .gallery-filter:focus-visible {
-  border-color: transparent;
+  border-bottom-color: transparent;
   color: var(--brand-teal);
   background: transparent;
 }
@@ -721,7 +721,7 @@ h2 {
 .gallery-filter.is-active {
   background: transparent;
   border-bottom-color: var(--brand-pink);
-  color: var(--ink);
+  color: var(--brand-pink);
 }
 
 .gallery-filter:focus-visible {
