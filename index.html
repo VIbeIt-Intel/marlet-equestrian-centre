@@ -6,14 +6,10 @@
     <script>
       (function () {
         var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-        var seen = false;
-        try {
-          seen = localStorage.getItem("mec-intro-seen") === "1";
-        } catch (e) {}
         var mobile = window.matchMedia("(max-width: 799px)").matches;
         window.__mecIntroSrc = mobile ? "assets/intro-mobile.mp4?v=2" : "assets/intro.mp4?v=3";
         window.__mecIntroPoster = mobile ? "assets/intro-poster-mobile.webp" : "assets/intro-poster.webp";
-        window.__mecSkipIntro = reduced || seen;
+        window.__mecSkipIntro = reduced;
         if (window.__mecSkipIntro) {
           document.documentElement.classList.add("intro-skip");
           return;
@@ -269,10 +265,6 @@
           releaseIntro();
           return;
         }
-
-        try {
-          localStorage.setItem("mec-intro-seen", "1");
-        } catch (e) {}
 
         document.documentElement.classList.add("site-intro-active");
         if (window.__mecIntroPoster) video.poster = window.__mecIntroPoster;
