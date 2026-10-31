@@ -121,6 +121,25 @@
         opacity: 0;
         transition: opacity 0.4s ease;
       }
+      .site-intro-sound {
+        display: none;
+        position: absolute;
+        z-index: 3;
+        left: 50%;
+        bottom: max(1.15rem, env(safe-area-inset-bottom));
+        transform: translateX(-50%);
+        margin: 0;
+        padding: 0.6rem 1rem;
+        border-radius: 999px;
+        background: #fff;
+        color: #1c2430;
+        font: 600 0.95rem/1 system-ui, sans-serif;
+        pointer-events: none;
+        white-space: nowrap;
+      }
+      .site-intro.is-muted:not(.is-splash) .site-intro-sound {
+        display: block;
+      }
     </style>
     <script>
       (function () {
@@ -216,6 +235,7 @@
         disablepictureinpicture
         controlslist="nodownload nofullscreen noremoteplayback"
       ></video>
+      <p class="site-intro-sound">Tap for sound</p>
       <div class="site-intro-splash">
         <img src="assets/splash-logo.jpg" alt="Marlet Equestrian Centre" width="1200" height="675" />
       </div>
@@ -367,6 +387,7 @@
             playing = true;
             playbackStarted = true;
             window.clearTimeout(startTimer);
+            intro.classList.remove("is-muted");
           }).catch(function () {
             video.muted = true;
             var mutedPlay = video.play();
@@ -375,6 +396,7 @@
                 playing = true;
                 playbackStarted = true;
                 window.clearTimeout(startTimer);
+                intro.classList.add("is-muted");
               }).catch(function () {
                 playing = false;
               });
@@ -386,7 +408,9 @@
           if (splashing || leaving) return;
           video.muted = false;
           video.volume = 1;
-          keepPlaying();
+          intro.classList.remove("is-muted");
+          var again = video.play();
+          if (again && again.catch) again.catch(function () {});
         }
 
         video.addEventListener("ended", showSplash);
@@ -396,13 +420,16 @@
         video.addEventListener("loadeddata", tryPlay);
         video.addEventListener("canplay", tryPlay);
         intro.addEventListener("click", function () {
+          if (!splashing && video.muted) {
+            unmute();
+            if (!video.muted) return;
+          }
           if (!splashing) {
             showSplash();
             return;
           }
           releaseIntro();
         });
-        intro.addEventListener("pointerdown", unmute);
         document.addEventListener("keydown", unmute);
         if (video.readyState >= 2) tryPlay();
       })();
@@ -759,13 +786,38 @@
             <iframe
               title="Marlet Equestrian Centre on Google Maps"
               class="visit-google-embed"
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3591.86973783787!2d28.3987323!3d-25.807871199999997!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1e955b861d3c76d5%3A0x3dc87f01e0e46ca!2sMarlet%20Equestrian%20Centre!5e0!3m2!1sen!2sza!4v1792599470466!5m2!1sen!2sza"
-              loading="lazy"
+              data-src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3591.86973783787!2d28.3987323!3d-25.807871199999997!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1e955b861d3c76d5%3A0x3dc87f01e0e46ca!2sMarlet%20Equestrian%20Centre!5e0!3m2!1sen!2sza!4v1792599470466!5m2!1sen!2sza"
               referrerpolicy="no-referrer-when-downgrade"
               allowfullscreen
             ></iframe>
           </div>
         </div>
+        <script>
+          (function () {
+            var frame = document.querySelector(".visit-google-embed");
+            if (!frame) return;
+            var src = frame.getAttribute("data-src");
+            if (!src) return;
+            function loadMap() {
+              if (frame.getAttribute("src")) return;
+              frame.setAttribute("src", src);
+            }
+            var box = frame.closest(".visit-google") || frame;
+            if (!("IntersectionObserver" in window)) {
+              window.addEventListener("load", loadMap, { once: true });
+              return;
+            }
+            var observer = new IntersectionObserver(
+              function (entries) {
+                if (!entries.some(function (entry) { return entry.isIntersecting; })) return;
+                loadMap();
+                observer.disconnect();
+              },
+              { rootMargin: "800px 0px" }
+            );
+            observer.observe(box);
+          })();
+        </script>
       </section>
 
       <section id="contact">
