@@ -7,8 +7,8 @@
       (function () {
         var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
         var mobile = window.matchMedia("(max-width: 799px)").matches;
-        window.__mecIntroSrc = mobile ? "assets/intro-mobile.mp4?v=3" : "assets/intro.mp4?v=4";
-        window.__mecIntroPoster = mobile ? "assets/intro-poster-mobile.webp?v=2" : "assets/intro-poster.webp?v=2";
+        window.__mecIntroSrc = mobile ? "assets/intro-mobile.mp4?v=3" : "assets/intro.mp4?v=5";
+        window.__mecIntroPoster = mobile ? "assets/intro-poster-mobile.webp?v=2" : "assets/intro-poster.webp?v=3";
         window.__mecSkipIntro = reduced;
         if (window.__mecSkipIntro) {
           document.documentElement.classList.add("intro-skip");
@@ -57,7 +57,7 @@
         inset: 0;
         width: 100%;
         height: 100%;
-        object-fit: contain;
+        object-fit: cover;
         object-position: center;
         background: #000;
         pointer-events: none;
@@ -194,15 +194,15 @@
   }
 }
     </script>
-    <link rel="preload" href="styles.css?v=zoom10" as="style" />
+    <link rel="preload" href="styles.css?v=zoom11" as="style" />
     <link
       id="site-styles"
       rel="stylesheet"
-      href="styles.css?v=zoom10"
+      href="styles.css?v=zoom11"
       media="print"
       onload="this.media='all'"
     />
-    <noscript><link rel="stylesheet" href="styles.css?v=zoom10" /></noscript>
+    <noscript><link rel="stylesheet" href="styles.css?v=zoom11" /></noscript>
   </head>
   <body class="intro-locked">
     <div class="site-intro" id="site-intro" role="dialog" aria-modal="true" aria-label="Welcome to Marlet Equestrian Centre">
@@ -331,7 +331,7 @@
 
         document.documentElement.classList.add("site-intro-active");
         if (window.__mecIntroPoster) video.poster = window.__mecIntroPoster;
-        video.src = window.__mecIntroSrc || "assets/intro.mp4?v=4";
+        video.src = window.__mecIntroSrc || "assets/intro.mp4?v=5";
         video.defaultMuted = false;
         video.muted = false;
         video.volume = 1;
