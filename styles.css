@@ -1579,6 +1579,12 @@ main {
   }
 }
 
+@media (min-width: 1100px) {
+  .contact-social {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
 .social-preview {
   display: flex;
   flex-direction: column;
@@ -1610,6 +1616,10 @@ main {
 
 .social-preview-icon--instagram {
   color: #e1306c;
+}
+
+.social-preview-icon--tiktok {
+  color: #111;
 }
 
 .social-preview-title {
@@ -1696,6 +1706,21 @@ main {
 .social-live-feed--instagram {
   display: flex;
   flex-direction: column;
+}
+
+.social-live-feed--tiktok {
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+}
+
+.social-live-feed--tiktok .tiktok-embed {
+  flex: 1;
+  width: 100%;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+  border: 0;
 }
 
 .social-live-iframe--instagram {
@@ -1790,6 +1815,12 @@ main {
   background: linear-gradient(145deg, #fdf2f8, #fce7f3);
   border-color: #f5c2e0;
   color: #be185d;
+}
+
+.social-btn--tiktok {
+  background: #111;
+  border-color: #111;
+  color: #fff;
 }
 
 .social-btn--ghost {
