@@ -511,6 +511,78 @@ h2 {
   margin-top: 0.75rem;
 }
 
+.card-wide .card-copy {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 9.75rem) minmax(0, 1fr);
+  align-items: center;
+  justify-items: center;
+  column-gap: 0.2rem;
+  width: 100%;
+  max-width: none;
+}
+
+.card-wide .party-deco {
+  display: block;
+  width: min(3.6rem, 18vw);
+  pointer-events: none;
+}
+
+.card-wide .party-deco-balloons {
+  justify-self: end;
+}
+
+.card-wide .party-deco-popper {
+  justify-self: start;
+}
+
+.card-wide .party-deco svg {
+  width: 100%;
+  height: auto;
+  animation: party-bob 4.8s ease-in-out infinite;
+}
+
+.card-wide .party-deco-popper svg {
+  animation-delay: -1.4s;
+}
+
+.card-wide .card-copy-text,
+.card-wide h3,
+.card-wide p {
+  margin: 0;
+  text-align: center;
+}
+
+.card-wide p {
+  margin-top: 0.28rem;
+}
+
+.card-wide h3 {
+  font-family: var(--display);
+  font-size: 1.2rem;
+  font-weight: 560;
+  line-height: 1.1;
+}
+
+.card-wide .card-photos {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.55rem;
+  margin-top: 0.85rem;
+  overflow: visible;
+}
+
+.card-wide .card-photo {
+  width: 100%;
+  min-width: 0;
+  border-radius: 0.7rem;
+}
+
+@media (min-width: 640px) {
+  .card-wide .card-photos {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
 .cards--simple .card-photos {
   grid-template-columns: 1fr;
   max-width: 22rem;
@@ -1767,8 +1839,8 @@ main {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.35rem;
-    padding: 0.35rem 0.7rem 0.15rem;
+    gap: 1.15rem;
+    padding: 0.7rem 0.85rem 0.55rem;
     text-align: center;
   }
 
@@ -1791,7 +1863,7 @@ main {
     align-items: center;
     align-self: center;
     flex: none;
-    gap: 0.35rem;
+    gap: 0.95rem;
     width: min(100%, 28rem);
     padding-top: 0;
   }
@@ -1808,8 +1880,9 @@ main {
     max-width: 100%;
     margin-inline: auto;
     justify-content: center;
+    gap: 1.2rem;
     flex: none;
-    padding: 0;
+    padding: 0.15rem 0;
   }
 
   .brand {
@@ -2248,7 +2321,61 @@ main {
 
 @media (min-width: 800px) {
   .cards {
-    grid-template-columns: repeat(3, 1fr);
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    column-gap: 0.75rem;
+    row-gap: 0;
+  }
+
+  .cards li {
+    display: grid;
+    grid-template-rows: subgrid;
+    grid-row: span 3;
+    align-content: start;
+    margin-bottom: 0.75rem;
+  }
+
+  .cards h3 {
+    margin: 0;
+    line-height: 1.2;
+  }
+
+  .cards li > p {
+    margin: 0.28rem 0 0;
+    line-height: 1.35;
+  }
+
+  .card-photos {
+    margin-top: 0.75rem;
+  }
+
+  .cards li.card-wide {
+    grid-column: 1 / -1;
+    grid-row: auto;
+    grid-template-rows: auto;
+    grid-template-columns: minmax(0, 1fr);
+    display: grid;
+    align-items: start;
+    margin-bottom: 0.75rem;
+    padding-top: 1.15rem;
+  }
+
+  .cards li.card-wide .card-photos {
+    margin-top: 0.9rem;
+  }
+
+  .cards li.card-wide .card-copy {
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    align-items: end;
+    column-gap: 0.75rem;
+  }
+
+  .cards li.card-wide .party-deco {
+    width: 9.25rem;
+  }
+
+  .cards li.card-wide h3 {
+    font-size: 1.7rem;
   }
 
   .job-photos {
@@ -2310,8 +2437,22 @@ body.intro-locked #fb-root {
   }
 }
 
+@keyframes party-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .site-intro {
     display: none;
+  }
+
+  .party-deco svg {
+    animation: none;
   }
 }
