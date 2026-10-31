@@ -2451,7 +2451,7 @@ body.intro-locked #fb-root {
   inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   object-position: center;
   background: #000;
   pointer-events: none;
@@ -2466,6 +2466,42 @@ body.intro-locked #fb-root {
     max-height: 100%;
     object-fit: contain;
   }
+}
+
+.site-intro.is-splash {
+  background: #000;
+}
+
+.site-intro-splash {
+  display: flex;
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  padding: 1.25rem;
+  background: #fff;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.site-intro.is-splash .site-intro-splash {
+  opacity: 1;
+  transition: opacity 1.05s ease;
+}
+
+.site-intro-splash img {
+  display: block;
+  width: min(92vw, 40rem);
+  height: auto;
+  opacity: 0;
+}
+
+.site-intro.is-splash .site-intro-splash img {
+  opacity: 1;
+  transition: opacity 1.2s ease 0.28s;
 }
 
 @keyframes party-bob {
