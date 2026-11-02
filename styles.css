@@ -1711,16 +1711,63 @@ main {
 .social-live-feed--tiktok {
   display: flex;
   flex-direction: column;
+  min-height: 0;
   background: #fff;
 }
 
-.social-live-feed--tiktok .tiktok-embed {
-  flex: 1;
+.tiktok-row {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(8.75rem, 46%);
+  gap: 0.45rem;
+  margin: 0;
+  padding: 0.65rem;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+
+.tiktok-row a {
+  position: relative;
+  display: block;
+  aspect-ratio: 9 / 16;
+  overflow: hidden;
+  border-radius: 0.7rem;
+  background: #111;
+  scroll-snap-align: start;
+}
+
+.tiktok-row img {
   width: 100%;
-  max-width: 100% !important;
-  min-width: 0 !important;
-  margin: 0 !important;
-  border: 0;
+  height: 100%;
+  object-fit: cover;
+}
+
+.social-feed-play {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  display: grid;
+  place-items: center;
+  width: 2.35rem;
+  height: 2.35rem;
+  border-radius: 999px;
+  color: #fff;
+  background: rgb(0 0 0 / 55%);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.tiktok-row a:hover img,
+.tiktok-row a:focus-visible img {
+  transform: scale(1.03);
+  transition: transform 0.25s ease;
+}
+
+.tiktok-row a:focus-visible {
+  outline: 2px solid var(--brand-pink);
+  outline-offset: 2px;
 }
 
 .social-live-iframe--instagram {
@@ -1855,7 +1902,9 @@ main {
   }
 
   .social-feed-grid a:hover img,
-  .social-feed-grid a:focus-visible img {
+  .social-feed-grid a:focus-visible img,
+  .tiktok-row a:hover img,
+  .tiktok-row a:focus-visible img {
     transform: none;
   }
 }
