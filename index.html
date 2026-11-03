@@ -7,9 +7,11 @@
       (function () {
         var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
         var mobile = window.matchMedia("(max-width: 799px)").matches;
-        window.__mecIntroSrc = mobile ? "assets/intro-mobile.mp4?v=3" : "assets/intro.mp4?v=5";
+        var conn = navigator.connection;
+        var slow = !!conn && (conn.saveData || /(^|-)(2g|3g)$/.test(conn.effectiveType || ""));
+        window.__mecIntroSrc = mobile ? "assets/intro-mobile.mp4?v=3" : "assets/intro.mp4?v=6";
         window.__mecIntroPoster = mobile ? "assets/intro-poster-mobile.webp?v=2" : "assets/intro-poster.webp?v=3";
-        window.__mecSkipIntro = reduced;
+        window.__mecSkipIntro = reduced || slow;
         if (window.__mecSkipIntro) {
           document.documentElement.classList.add("intro-skip");
           return;
@@ -21,13 +23,6 @@
         poster.type = "image/webp";
         poster.fetchPriority = "high";
         document.head.appendChild(poster);
-        var link = document.createElement("link");
-        link.rel = "preload";
-        link.as = "video";
-        link.href = window.__mecIntroSrc;
-        link.type = "video/mp4";
-        link.fetchPriority = "high";
-        document.head.appendChild(link);
       })();
     </script>
     <style>
@@ -297,10 +292,17 @@
           gallop.pause();
         }
 
+        function stopVideo() {
+          video.pause();
+          if (video.ended || !video.getAttribute("src")) return;
+          video.removeAttribute("src");
+          video.load();
+        }
+
         function releaseIntro() {
           if (!intro.isConnected) return;
           if (leaving) {
-            video.pause();
+            stopVideo();
             stopGallop();
             intro.remove();
             return;
@@ -308,7 +310,7 @@
           leaving = true;
           window.clearTimeout(startTimer);
           window.clearTimeout(splashTimer);
-          video.pause();
+          stopVideo();
           stopGallop();
           intro.remove();
           document.body.classList.remove("intro-locked");
@@ -334,7 +336,7 @@
           function finish() {
             if (finished || !intro.isConnected) return;
             finished = true;
-            video.pause();
+            stopVideo();
             stopGallop();
             intro.remove();
             window.scrollTo(0, 0);
@@ -368,7 +370,7 @@
 
         document.documentElement.classList.add("site-intro-active");
         if (window.__mecIntroPoster) video.poster = window.__mecIntroPoster;
-        video.src = window.__mecIntroSrc || "assets/intro.mp4?v=5";
+        video.src = window.__mecIntroSrc || "assets/intro.mp4?v=6";
         video.defaultMuted = false;
         video.muted = false;
         video.volume = 1;
@@ -454,7 +456,7 @@
     <div class="top-scroll-spacer" aria-hidden="true"></div>
     <header class="top">
       <a class="brand" href="#top">
-        <img src="assets/logo-header.png?v=client" alt="Marlet Equestrian Centre" width="520" height="288" decoding="async" loading="lazy" fetchpriority="low" />
+        <img src="assets/logo-header.png?v=client" alt="Marlet Equestrian Centre" width="520" height="288" decoding="async" />
       </a>
       <div class="top-center">
         <p class="top-tagline">Est. 2003 · Mooiplaats, Pretoria</p>
@@ -900,9 +902,8 @@
                 <iframe
                   title="Marlet Equestrian Centre on Instagram"
                   class="social-live-iframe social-live-iframe--instagram"
-                  src="https://www.instagram.com/marletequestriancentre/embed/?cr=1&amp;v=14&amp;wp=540"
+                  data-src="https://www.instagram.com/marletequestriancentre/embed/?cr=1&amp;v=14&amp;wp=540"
                   allow="encrypted-media; web-share"
-                  loading="lazy"
                   referrerpolicy="strict-origin-when-cross-origin"
                 ></iframe>
               </div>
@@ -1012,20 +1013,39 @@
     <div id="fb-root"></div>
     <script>
       (function () {
-        function loadFacebookSdk() {
-          window.setTimeout(function () {
-            var fb = document.createElement("script");
-            fb.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v22.0";
-            fb.async = true;
-            fb.defer = true;
-            fb.crossOrigin = "anonymous";
-            document.body.appendChild(fb);
-          }, 300);
+        var social = document.querySelector(".contact-social");
+        var loaded = false;
+        function loadSocialFeeds() {
+          if (loaded) return;
+          loaded = true;
+          var insta = document.querySelector(".social-live-iframe--instagram");
+          if (insta && insta.getAttribute("data-src")) insta.setAttribute("src", insta.getAttribute("data-src"));
+          var fb = document.createElement("script");
+          fb.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v22.0";
+          fb.async = true;
+          fb.defer = true;
+          fb.crossOrigin = "anonymous";
+          document.body.appendChild(fb);
+        }
+        function watchSocial() {
+          if (!social || !("IntersectionObserver" in window)) {
+            window.setTimeout(loadSocialFeeds, 300);
+            return;
+          }
+          var observer = new IntersectionObserver(
+            function (entries) {
+              if (!entries.some(function (entry) { return entry.isIntersecting; })) return;
+              observer.disconnect();
+              loadSocialFeeds();
+            },
+            { rootMargin: "800px 0px" }
+          );
+          observer.observe(social);
         }
         if (document.body.classList.contains("intro-locked")) {
-          window.addEventListener("mec-intro-done", loadFacebookSdk, { once: true });
+          window.addEventListener("mec-intro-done", watchSocial, { once: true });
         } else {
-          window.addEventListener("load", loadFacebookSdk, { once: true });
+          window.addEventListener("load", watchSocial, { once: true });
         }
       })();
     </script>
