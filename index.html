@@ -225,15 +225,15 @@
   }
 }
     </script>
-    <link rel="preload" href="styles.css?v=tiktok1" as="style" />
+    <link rel="preload" href="styles.css?v=social5" as="style" />
     <link
       id="site-styles"
       rel="stylesheet"
-      href="styles.css?v=tiktok1"
+      href="styles.css?v=social5"
       media="print"
       onload="this.media='all'"
     />
-    <noscript><link rel="stylesheet" href="styles.css?v=tiktok1" /></noscript>
+    <noscript><link rel="stylesheet" href="styles.css?v=social5" /></noscript>
   </head>
   <body class="intro-locked">
     <div class="site-intro" id="site-intro" role="dialog" aria-modal="true" aria-label="Welcome to Marlet Equestrian Centre">
@@ -902,7 +902,7 @@
                 <iframe
                   title="Marlet Equestrian Centre on Instagram"
                   class="social-live-iframe social-live-iframe--instagram"
-                  data-src="https://www.instagram.com/marletequestriancentre/embed/?cr=1&amp;v=14&amp;wp=540"
+                  src="https://www.instagram.com/marletequestriancentre/embed/?cr=1&amp;v=14&amp;wp=540"
                   allow="encrypted-media; web-share"
                   referrerpolicy="strict-origin-when-cross-origin"
                 ></iframe>
@@ -1011,44 +1011,7 @@
     </footer>
 
     <div id="fb-root"></div>
-    <script>
-      (function () {
-        var social = document.querySelector(".contact-social");
-        var loaded = false;
-        function loadSocialFeeds() {
-          if (loaded) return;
-          loaded = true;
-          var insta = document.querySelector(".social-live-iframe--instagram");
-          if (insta && insta.getAttribute("data-src")) insta.setAttribute("src", insta.getAttribute("data-src"));
-          var fb = document.createElement("script");
-          fb.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v22.0";
-          fb.async = true;
-          fb.defer = true;
-          fb.crossOrigin = "anonymous";
-          document.body.appendChild(fb);
-        }
-        function watchSocial() {
-          if (!social || !("IntersectionObserver" in window)) {
-            window.setTimeout(loadSocialFeeds, 300);
-            return;
-          }
-          var observer = new IntersectionObserver(
-            function (entries) {
-              if (!entries.some(function (entry) { return entry.isIntersecting; })) return;
-              observer.disconnect();
-              loadSocialFeeds();
-            },
-            { rootMargin: "800px 0px" }
-          );
-          observer.observe(social);
-        }
-        if (document.body.classList.contains("intro-locked")) {
-          window.addEventListener("mec-intro-done", watchSocial, { once: true });
-        } else {
-          window.addEventListener("load", watchSocial, { once: true });
-        }
-      })();
-    </script>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v22.0"></script>
     <script src="social-feeds.js" defer></script>
     <dialog class="photo-zoom">
       <div class="photo-zoom-bar">

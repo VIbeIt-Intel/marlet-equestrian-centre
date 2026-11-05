@@ -5,8 +5,9 @@
   function fitFacebookWidth() {
     var host = facebookPage.parentElement;
     if (!host) return;
-    var width = Math.floor(host.getBoundingClientRect().width);
+    var width = Math.min(500, Math.floor(host.getBoundingClientRect().width));
     if (width < 180) return;
+    if (facebookPage.getAttribute("data-width") === String(width)) return;
     facebookPage.setAttribute("data-width", String(width));
     if (window.FB && FB.XFBML && FB.XFBML.parse) {
       FB.XFBML.parse(host);
