@@ -1714,7 +1714,7 @@ main {
 
 .ig-scale {
   width: 100%;
-  height: 36rem;
+  min-height: 28rem;
   overflow: hidden;
 }
 

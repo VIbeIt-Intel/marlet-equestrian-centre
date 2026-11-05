@@ -19,13 +19,14 @@
     if (!instagramFrame) return;
     var host = instagramFrame.parentElement;
     if (!host) return;
-    var natural = 540;
-    var scale = host.clientWidth / natural;
+    var naturalWidth = 540;
+    var naturalHeight = 700;
+    var scale = host.clientWidth / naturalWidth;
     if (!(scale > 0)) return;
-    var view = host.clientHeight || 576;
-    instagramFrame.style.width = natural + "px";
-    instagramFrame.style.height = Math.ceil(view / scale) + "px";
+    instagramFrame.style.width = naturalWidth + "px";
+    instagramFrame.style.height = naturalHeight + "px";
     instagramFrame.style.transform = "scale(" + scale + ")";
+    host.style.height = Math.ceil(naturalHeight * scale) + "px";
   }
 
   function fitSocial() {
