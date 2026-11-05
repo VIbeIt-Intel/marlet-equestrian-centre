@@ -1719,21 +1719,25 @@ main {
 }
 
 .tiktok-row {
-  display: grid;
-  grid-auto-flow: column;
-  grid-auto-columns: minmax(8.75rem, 46%);
-  gap: 0.45rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.65rem;
   margin: 0;
   padding: 0.65rem;
-  overflow-x: auto;
-  overscroll-behavior-x: contain;
-  scroll-snap-type: x mandatory;
+  max-height: 36rem;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior-y: contain;
+  scroll-snap-type: y mandatory;
   -webkit-overflow-scrolling: touch;
 }
 
 .tiktok-row a {
   position: relative;
   display: block;
+  flex: none;
+  width: min(100%, 18rem);
   aspect-ratio: 9 / 16;
   overflow: hidden;
   border-radius: 0.7rem;
